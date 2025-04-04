@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" version="5.0" method="upgrade">
+    <name>Mavik Thumbnails</name>
+    <author>Vitalii Marenkov</author>
+    <creationDate>2025-04-04</creationDate>
+    <copyright>Copyright (C) 2025 Vitalii Marenkov. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>3.0.0</version>
+    <description>Plugin for generating thumbnails in Joomla 5.</description>    
+    <namespace path="src">Mavik\Joomla\Plugin\Content\Thumbnails</namespace>
+    <files>
+        <folder plugin="thumbnails">services</folder>
+        <folder>language</folder>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_content_mavikthumbnails.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_content_mavikthumbnails.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="thumbnail_width" type="text" default="150" label="Thumbnail Width" description="Set the width of the thumbnails." />
+                <field name="thumbnail_height" type="text" default="150" label="Thumbnail Height" description="Set the height of the thumbnails." />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
