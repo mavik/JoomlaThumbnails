@@ -1,0 +1,18 @@
+{
+    "name": "mavik/joomla-thumbnails",
+    "description": "Plugin for creation thumbnails in CMS Joomla 5",
+    "type": "joomla-plugin",
+    "require": {
+        "php": ">=8.1.0",
+        "mavik/image": "@dev",
+        "mavik/thumbnails": "@dev"
+    },
+    "config": {
+        "vendor-dir": "joomla/libraries"
+    },   
+    "scripts": {
+        "post-update-cmd": [
+            "ln -sfr src joomla/plugins/content/mavikThumbnails"
+        ]
+    }
+}
