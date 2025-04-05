@@ -9,7 +9,7 @@ set +o allexport
 # Run MySQL
 if ! docker ps --filter "name=$JOOMLA_MYSQL_CONTAINER_NAME" --filter "status=running" | grep -q $JOOMLA_MYSQL_CONTAINER_NAME; then
   echo "MySQL running..."
-  docker-compose up -d
+  docker compose up -d
 fi
 
 if [ ! -d joomla ]; then
@@ -45,4 +45,4 @@ fi
 cd ..
 
 php -S localhost:8000 -t joomla
-docker-compose down
+docker compose down

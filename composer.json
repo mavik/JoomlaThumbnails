@@ -12,6 +12,7 @@
     },   
     "scripts": {
         "post-update-cmd": [
+            "mkdir -p joomla/plugins/content",
             "ln -sfr src joomla/plugins/content/mavikThumbnails"
         ]
     }
