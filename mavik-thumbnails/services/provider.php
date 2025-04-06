@@ -6,7 +6,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Mavik\Joomla\Plugin\Content\Thumbnails\Thumbnails;
+use Mavik\Plugin\Content\Thumbnails\Extension\Thumbnails;
 
     return new class() implements ServiceProviderInterface
     {
