@@ -13,7 +13,7 @@
     "scripts": {
         "post-update-cmd": [
             "mkdir -p joomla/plugins/content",
-            "ln -sfr mavik-thumbnails joomla/plugins/content/mavik-thumbnails"
+            "ln -sfr mavikthumbnails joomla/plugins/content/mavikthumbnails"
         ]
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="plugin" group="content" version="5.0" method="upgrade">
-    <name>Mavik Thumbnails</name>
+<extension type="plugin" group="content" method="upgrade">
+    <name>PLG_CONTENT_MAVIK_THUMBNAILS</name>
+    <description>PLG_CONTENT_MAVIK_THUMBNAILS_DESCRIPTION</description> 
     <author>Vitalii Marenkov</author>
     <authorEmail>admin@mavik.com.ua</authorEmail>
 	<authorUrl>www.mavik.com.ua</authorUrl>
@@ -9,7 +10,7 @@
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <version>3.0.0</version>
     <description>Plugin for generating thumbnails in Joomla 5.</description>    
-    <namespace path="src">Mavik\Joomla\Plugin\Content\Thumbnails</namespace>
+    <namespace path="src">Mavik\Plugin\Content\Thumbnails</namespace>
     <files>
         <folder plugin="mavik-thumbnails">services</folder>
         <folder>src</folder>
@@ -19,9 +20,5 @@
         <language tag="en-GB">language/en-GB/en-GB.plg_content_mavik-thumbnails.sys.ini</language>
     </languages>
     <config>
-        <fields name="params">
-            <fieldset name="basic">
-            </fieldset>
-        </fields>
     </config>
 </extension>
