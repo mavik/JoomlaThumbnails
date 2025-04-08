@@ -1,0 +1,9 @@
+[submodule "mavik-thumbnails/libraries/thumbnails"]
+	path = mavik-thumbnails/libraries/thumbnails
+	url = https://github.com/mavik/Thumbnails.git
+[submodule "mavik-thumbnails/libraries/mastermids-html5"]
+	path = mavik-thumbnails/libraries/mastermids-html5
+	url = https://github.com/Masterminds/html5-php.git
+[submodule "mavik-thumbnails/libraries/image"]
+	path = mavik-thumbnails/libraries/image
+	url = https://github.com/mavik/Image.git
