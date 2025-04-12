@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" method="upgrade">
+    <name>Mavik Thumbnails</name>
+    <packagename>mavik-thumbnails</packagename>
+    <author>Vitalii Marenkov</author>
+    <authorEmail>admin@mavik.com.ua</authorEmail>
+	<authorUrl>www.mavik.com.ua</authorUrl>
+    <creationDate>2025-04-08</creationDate>
+    <copyright>Copyright (C) 2025 Vitalii Marenkov. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>3.0.0</version>
+    <blockChildUninstall>true</blockChildUninstall>
+    <files>
+        <file type="plugin" id="mavik-thumbnails" group="content">plugin.zip</file>
+        <file type="library" id="mavik-image">image.zip</file>
+        <file type="library" id="mavik-thumbnails">thumbnails.zip</file>
+        <file type="library" id="masterminds-html5-php">masterminds.zip</file>
+    </files>
+</extension>

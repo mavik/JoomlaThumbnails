@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" method="upgrade">
+    <name>Masterminds HTML5-php</name>
+    <libraryname>masterminds/html5-php</libraryname>
+    <description>HTML5 is a standards-compliant HTML5 parser and writer written entirely in PHP.</description> 
+    <author>Matt Butcher, Matt Farina, Asmir Mustafic</author>
+	<authorUrl>http://masterminds.github.io/html5-php</authorUrl>
+    <creationDate>2025-04-09</creationDate>
+    <copyright>Copyright (c) 2013 The Authors of HTML5-PHP</copyright>
+    <license>HTML5-PHP License. See License.txt</license>
+    <version>2.9.0</version>
+    <namespace path="src">Masterminds</namespace>
+    <files folder="html5-php">
+        <folder>src</folder>
+    </files>
+</extension>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" method="upgrade">
+    <name>Mavik\Thumbnails</name>
+    <libraryname>mavik/thumbnails</libraryname>
+    <description>Library for replacing images to thumbnails in HTML.</description> 
+    <author>Vitalii Marenkov</author>
+    <authorEmail>admin@mavik.com.ua</authorEmail>
+	<authorUrl>www.mavik.com.ua</authorUrl>
+    <creationDate>2025-04-08</creationDate>
+    <copyright>Copyright (C) 2025 Vitalii Marenkov. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.0.0</version>
+    <namespace path="src">Mavik\Thumbnails</namespace>
+    <files folder="Thumbnails">
+        <folder>src</folder>
+    </files>
+</extension>
