@@ -9,16 +9,22 @@ use Mavik\Thumbnails\Configuration;
 use Mavik\Thumbnails\Configuration\Base as ConfBase;
 use Mavik\Thumbnails\Configuration\Server as ConfServer;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 class ImagesReplacer
 {
-    private Thumbnails $thumbnails;
+    /** @var Registry */
+    private $registry;
 
-    public function __construct()
+    /** @var Thumbnails */
+    private $thumbnails;
+
+    public function __construct(Registry $params)
     {
         $confServer = new ConfServer(
             Uri::base(),
-            JPATH_ROOT
+            JPATH_ROOT,
+            $params->get('thumbnails_dir', 'images/thumbnails'),
         );
         $confBase = new ConfBase();
         $config = new Configuration($confServer, $confBase);

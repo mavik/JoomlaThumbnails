@@ -7,6 +7,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * mavikThumbnails Plugin
@@ -19,11 +20,11 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
     private ContextFactory $contextFactory;
     private ImagesReplacer $imagesReplacer;
 
-    public function __construct($subject, $config)
+    public function __construct(DispatcherInterface $dispatcher, array $config = [])
     {
-        parent::__construct($subject, $config);
+        parent::__construct($dispatcher, $config);
         $this->contextFactory = new ContextFactory();
-        $this->imagesReplacer = new ImagesReplacer();
+        $this->imagesReplacer = new ImagesReplacer($this->params);
     }
 
     public static function getSubscribedEvents(): array
