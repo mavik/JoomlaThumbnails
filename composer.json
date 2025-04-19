@@ -1,0 +1,26 @@
+{
+    "name": "mavik/joomla-thumbnails",
+    "description": "Plugin for CMS Joomla to replace images to thumbnails",
+    "type": "project",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.5.14"
+    },
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+            "Mavik\\JoomlaThumbnails\\": "plugin/src/",
+            "Mavik\\Image\\": "mavik-thumbnails/libraries/image/Image/src",
+            "Mavik\\Image\\Tests\\": "mavik-thumbnails/libraries/image/Image/tests",
+            "Mavik\\Thumbnails\\": "mavik-thumbnails/libraries/thumbnails/src",
+            "Mavik\\Thumbnails\\Tests\\": "mavik-thumbnails/libraries/thumbnails/tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitalii Marenkov",
+            "email": "admin@mavik.com.ua"
+        }
+    ]
+}
