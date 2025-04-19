@@ -1,4 +1,9 @@
 {
     "intelephense.environment.phpVersion": "8.1.0",
-    "php.suggest.basic": false
+    "php.suggest.basic": false,
+    "intelephense.files.exclude": [
+        "joomla/libraries/mavik",
+        "joomla/libraries/masterminds",
+        "joomla/plugins/content/mavik-thumbnails"
+    ]
 }
