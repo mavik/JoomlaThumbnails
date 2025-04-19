@@ -24,7 +24,7 @@ class ImagesReplacer
         $confServer = new ConfServer(
             Uri::base(),
             JPATH_ROOT,
-            $params->get('thumbnails_dir', 'images/thumbnails'),
+            $params->get('thumbnailsDir', 'images/thumbnails'),
         );
         $confBase = new ConfBase();
         $config = new Configuration($confServer, $confBase);
