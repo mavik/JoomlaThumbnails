@@ -1,10 +1,10 @@
 <?php
 
-namespace Mavik\Plugin\Content\Thumbnails\Extension\Context\ComContent;
+namespace Mavik\Plugin\Content\Thumbnails\Extension\Context;
 
 use Mavik\Plugin\Content\Thumbnails\Extension\ContextInterface;
 
-class Article implements ContextInterface
+class Simple implements ContextInterface
 {
     /*
      * @return string[]

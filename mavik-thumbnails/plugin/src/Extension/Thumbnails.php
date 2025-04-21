@@ -38,7 +38,7 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
     {
         $context = $this->contextFactory->createContext($event->getContext());
         if (empty($context)) {
-            return;
+            $context = new Context\Simple();
         }
         $item = $event->getItem();
         $text = $context->getText($item);
