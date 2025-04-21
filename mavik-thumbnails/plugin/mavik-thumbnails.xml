@@ -20,8 +20,16 @@
         <language tag="en-GB">language/en-GB/en-GB.plg_content_mavik-thumbnails.sys.ini</language>
     </languages>
     <config>
-    <fieldset name="server" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELDSET_SERVER">
-        <field name="thumbnailsDir" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR_DESC" default="images/thumbnails" hint="images/thumbnails" />
-    </fieldset>
+        <fieldset name="basic">
+            <field name="resizeMethod" type="list" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_RESIZE_METHOD" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_RESIZE_METHOD_DESC" default="fit">
+                <option value="fit">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_FIT</option>
+                <option value="fill">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_FILL</option>
+                <option value="area">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_AREA</option>
+                <option value="stretch">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_STRETCH</option>
+            </field>
+        </fieldset>
+        <fieldset name="server" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELDSET_SERVER">
+            <field name="thumbnailsDir" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR_DESC" default="images/thumbnails" hint="images/thumbnails" />
+        </fieldset>
     </config>
 </extension>

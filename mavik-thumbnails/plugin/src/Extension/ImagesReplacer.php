@@ -26,7 +26,9 @@ class ImagesReplacer
             JPATH_ROOT,
             $params->get('thumbnailsDir', 'images/thumbnails'),
         );
-        $confBase = new ConfBase();
+        $confBase = new ConfBase(
+            $params->get('resizeMethod', 'fit'),
+        );
         $config = new Configuration($confServer, $confBase);
         $this->thumbnails = new Thumbnails($config);
     }
