@@ -56,7 +56,7 @@ class ImagesReplacer
         }
         $wa = $app->getDocument()->getWebAssetManager();
         foreach ($jsAndCss->js() as $js) {
-            $jsName = "lib_mavik_thumbnails.popup";
+            $jsName = "lib_mavik_thumbnails.{$js}";
             $wa->registerAndUseScript($jsName, "media/lib_mavik_thumbnails/{$js}", ['version' => 'auto']);
         }
         $inlineJs = implode("\n", $jsAndCss->inlineJs());
@@ -66,7 +66,7 @@ class ImagesReplacer
             });
         ");
         foreach ($jsAndCss->css() as $css) {
-            $cssName = "lib_mavik_thumbnails.popup";
+            $cssName = "lib_mavik_thumbnails.{$css}";
             $wa->registerAndUseStyle($cssName, "media/lib_mavik_thumbnails/{$css}", ['version' => 'auto']);
         }
     }
