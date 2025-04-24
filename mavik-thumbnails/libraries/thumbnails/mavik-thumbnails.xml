@@ -14,4 +14,7 @@
     <files folder="Thumbnails">
         <folder>src</folder>
     </files>
+    <media folder="Thumbnails/src/jsLibrary" destination="lib_mavik_thumbnails">
+		<folder>glightbox</folder>
+	</media>
 </extension>
