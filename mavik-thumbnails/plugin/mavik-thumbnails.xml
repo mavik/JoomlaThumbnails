@@ -28,6 +28,13 @@
                     <option value="area">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_AREA</option>
                     <option value="stretch">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_STRETCH</option>
                 </field>
+                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,2,3" mul label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1">
+                    <option value="1">1x</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                    <option value="5">5x</option>
+                </field>
             </fieldset>
             <fieldset name="server" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELDSET_SERVER">
                 <field name="thumbnailsDir" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR_DESC" default="images/thumbnails" hint="images/thumbnails" />

@@ -31,6 +31,7 @@ class ImagesReplacer
         );
         $confBase = new ConfBase(
             $params->get('resizeMethod', 'fit'),
+            array_map('intval', $params->get('adaptiveScales', [1,2,3])),
         );
         $config = new Configuration($confServer, $confBase);
         $this->thumbnails = new Thumbnails($config);
