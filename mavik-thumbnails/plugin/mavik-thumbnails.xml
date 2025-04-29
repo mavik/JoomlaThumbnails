@@ -28,7 +28,21 @@
                     <option value="area">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_AREA</option>
                     <option value="stretch">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_STRETCH</option>
                 </field>
-                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,2,3" mul label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1">
+                <field name="includeClasses" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_INCLUDE_CLASSES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_INCLUDE_CLASSES_DESC" default="" />
+                <field name="excludeClasses" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_EXCLUDE_CLASSES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_EXCLUDE_CLASSES_DESC" default="" />
+                <field name="insideLinkAction" type="list" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_INSIDE_LINK_ACTION" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_INSIDE_LINK_ACTION_DESC" default="none">
+                    <option value="none">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_INSIDE_LINK_ACTION_NONE</option>
+                    <option value="resize">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_INSIDE_LINK_ACTION_RESIZE</option>
+                    <option value="all">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_INSIDE_LINK_ACTION_ALL</option>
+                </field>
+                <field name="useDefaultSize" type="list" default="no" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_USE_DEFAULT_SIZE" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_USE_DEFAULT_SIZE_DESC" >
+                    <option value="no">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_USE_DEFAULT_SIZE_NO</option>
+                    <option value="without-size">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_USE_DEFAULT_SIZE_WITHOUT_SIZE</option>
+                    <option value="all">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_USE_DEFAULT_SIZE_ALL</option>
+                </field>
+                <field name="defaultWidth" type="number" min="0" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_WIDTH" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_WIDTH_DESC" />
+                <field name="defaultHeight" type="number" min="0" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_HEIGHT" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_HEIGHT_DESC" />
+                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,2,3" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1">
                     <option value="1">1x</option>
                     <option value="2">2x</option>
                     <option value="3">3x</option>

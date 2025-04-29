@@ -6,34 +6,19 @@ defined('_JEXEC') or die;
 
 use Mavik\Thumbnails\Thumbnails;
 use Mavik\Thumbnails\JsAndCss;
-use Mavik\Thumbnails\Configuration;
-use Mavik\Thumbnails\Configuration\Base as ConfBase;
-use Mavik\Thumbnails\Configuration\Server as ConfServer;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 
 class ImagesReplacer
 {
-    /** @var Registry */
-    private $registry;
-
     /** @var Thumbnails */
     private $thumbnails;
 
     public function __construct(Registry $params)
     {
-        $confServer = new ConfServer(
-            Uri::base(),
-            JPATH_ROOT,
-            $params->get('thumbnailsDir', 'images/thumbnails'),
-        );
-        $confBase = new ConfBase(
-            $params->get('resizeMethod', 'fit'),
-            array_map('intval', $params->get('adaptiveScales', [1,2,3])),
-        );
-        $config = new Configuration($confServer, $confBase);
+        $configFactory = new ConfigurationFactory();
+        $config = $configFactory->create($params);
         $this->thumbnails = new Thumbnails($config);
     }
 
