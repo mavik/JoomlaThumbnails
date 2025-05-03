@@ -28,12 +28,13 @@ class ConfigurationFactory
             $params->get('useDefaultSize', ConfBase::USE_DEFAULT_SIZE_NO),
             $params->get('defaultWidth', null),
             $params->get('defaultHeight', null),
+            $params->get('popUp', null),
         );
         return new Configuration($confServer, $confBase);        
     }
 
     private function stringToArray(string $string): array
     {
-        return array_map('trim', explode(',', $string));
+        return array_filter(array_map('trim', explode(',', $string)), 'strlen');
     }
 }

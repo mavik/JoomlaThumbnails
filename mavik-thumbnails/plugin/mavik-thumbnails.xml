@@ -22,6 +22,10 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
+                <field name="popUp" type="list" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_POPUP" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_POPUP_DESC" default="none">
+                    <option value="">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_POPUP_NONE</option>
+                    <option value="GLightbox">GLightbox</option>
+                </field>
                 <field name="resizeMethod" type="list" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_RESIZE_METHOD" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_RESIZE_METHOD_DESC" default="fit">
                     <option value="fit">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_FIT</option>
                     <option value="fill">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_RESIZE_FILL</option>
