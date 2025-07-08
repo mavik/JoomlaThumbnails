@@ -2,10 +2,9 @@
     "name": "mavik/joomla-thumbnails",
     "description": "Plugin for CMS Joomla to replace images to thumbnails",
     "type": "project",
-    "require": {
-    },
     "require-dev": {
-        "phpunit/phpunit": "8.5.14"
+        "phpunit/phpunit": "8.5.14",
+        "phpstan/phpstan": "^2.1"
     },
     "license": "GPL-2.0-or-later",
     "autoload": {
