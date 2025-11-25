@@ -21,16 +21,16 @@ class ConfigurationFactory
         );
         $confBase = new ConfBase(
             $params->get('resizeMethod', 'fit'),
-            array_map('intval', $params->get('adaptiveScales', [1,2,3])),
+            array_map('intval', $params->get('adaptiveScales', [1, 2, 3])),
             $this->stringToArray($params->get('includeClasses', '')),
             $this->stringToArray($params->get('excludeClasses', '')),
             $params->get('insideLinkAction', ConfBase::USE_DEFAULT_SIZE_NO),
             $params->get('useDefaultSize', ConfBase::USE_DEFAULT_SIZE_NO),
             $params->get('defaultWidth', null),
             $params->get('defaultHeight', null),
-            $params->get('popUp', null),
+            $params->get('popUp') == 'none' ? null : $params->get('popUp', null),
         );
-        return new Configuration($confServer, $confBase);        
+        return new Configuration($confServer, $confBase);
     }
 
     private function stringToArray(string $string): array
