@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:Masterminds/html5-php.git
+	branch = master
+	commit = fcf91eb64359852f00d921887b219479b4f21251
+	parent = 363f9c8b7ede8a6d6578c53b63e481f0f23751c8
+	method = merge
+	cmdver = 0.4.9
