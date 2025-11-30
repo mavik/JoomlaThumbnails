@@ -3,3 +3,6 @@ parameters:
 	phpVersion: 80100
 	paths:
 		- mavik-thumbnails
+	excludePaths:
+		- mavik-thumbnails/libraries/masterminds
+		- */vendor/*
