@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Push Image subrepo",
+            "type": "shell",
+            "command": "git subrepo push mavik-thumbnails/libraries/image/Image",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pull Image subrepo",
+            "type": "shell",
+            "command": "git subrepo pull mavik-thumbnails/libraries/image/Image",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Push Thumbnails subrepo",
+            "type": "shell",
+            "command": "git subrepo push mavik-thumbnails/libraries/thumbnails/Thumbnails",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pull Thumbnails subrepo",
+            "type": "shell",
+            "command": "git subrepo pull mavik-thumbnails/libraries/thumbnails/Thumbnails",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pull Masterminds/html5 subrepo",
+            "type": "shell",
+            "command": "git subrepo pull mavik-thumbnails/libraries/masterminds/html5-php",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
