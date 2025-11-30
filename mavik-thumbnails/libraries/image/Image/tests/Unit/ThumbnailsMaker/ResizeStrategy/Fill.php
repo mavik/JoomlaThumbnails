@@ -1,0 +1,80 @@
+<?php
+/*
+ * PHP Library for Image processing and creating thumbnails
+ *
+ * @package Mavik\Image
+ * @author Vitalii Marenkov <admin@mavik.com.ua>
+ * @copyright 2021 Vitalii Marenkov
+ * @license MIT; see LICENSE
+*/
+
+namespace Mavik\Image;
+
+use PHPUnit\Framework\TestCase;
+use Mavik\Image\ImageSize;
+use Mavik\Image\ThumbnailsMaker\ResizeStrategy\Fill;
+
+class FillTest extends TestCase
+{
+    /**
+     * @dataProvider originalImageAreas
+     */
+    public function testOriginalImageArea($origWidth, $origHeight, $thumbWidth, $thumbHeight, $areaX, $areaY, $areaWidth, $areaHeight)
+    {
+        $strategy = new Fill();
+        $originalSize = new ImageSize($origWidth, $origHeight);
+        $thumbnailSize = new ImageSize($thumbWidth, $thumbHeight);
+        $originalArea = $strategy->originalImageArea($originalSize, $thumbnailSize);
+        $this->assertSame($areaX, $originalArea->x);
+        $this->assertSame($areaY, $originalArea->y);
+        $this->assertSame($areaWidth, $originalArea->width);
+        $this->assertSame($areaHeight, $originalArea->height);
+    }
+    
+    /**
+     * @dataProvider realThumbnailSizes
+     */
+    public function testRealThumbnailSize($origWidth, $origHeight, $thumbWidth, $thumbHeight, $realThumbWidth, $realThumbHeight)
+    {
+        $strategy = new Fill();
+        $originalSize = new ImageSize($origWidth, $origHeight);
+        $thumbnailSize = new ImageSize($thumbWidth, $thumbHeight);
+        $realThumbnailSize = $strategy->realThumbnailSize($originalSize, $thumbnailSize);
+        $this->assertSame($realThumbWidth, $realThumbnailSize->width);
+        $this->assertSame($realThumbHeight, $realThumbnailSize->height);        
+    }
+
+    public function originalImageAreas()
+    {
+        return [
+            [600, 600, 300, 300, 0, 0, 600, 600],
+            [800, 600, 400, 300, 0, 0, 800, 600],
+            [600, 800, 300, 400, 0, 0, 600, 800],
+            [800, 600, 400, 200, 0, 100, 800, 400],          
+            [800, 600, 300, 300, 100, 0, 600, 600],            
+            [600, 800, 300, 200, 0, 200, 600, 400],
+            [600, 800, 200, 400, 100, 0, 400, 800],            
+            [800, 600, 400, null, 0, 0, 800, 600],
+            [800, 600, null, 300, 0, 0, 800, 600],
+            [600, 800, 400, null, 0, 0, 600, 800],
+            [600, 800, null, 300, 0, 0, 600, 800],
+        ];
+    }
+    
+    public function realThumbnailSizes()
+    {
+        return [
+            [600, 600, 300, 300, 300, 300],
+            [600, 600, 600, 300, 600, 300],            
+            [800, 600, 400, 300, 400, 300],            
+            [800, 600, 400, 150, 400, 150],
+            [800, 600, 200, 300, 200, 300],            
+            [600, 800, 150, 400, 150, 400],
+            [600, 800, 300, 200, 300, 200],
+            [800, 600, null, 300, 400, 300],
+            [800, 600, 400, null, 400, 300],
+            [600, 800, null, 400, 300, 400],
+            [600, 800, 300, null, 300, 400],
+        ];
+    }
+}

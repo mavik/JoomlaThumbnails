@@ -1,0 +1,25 @@
+{
+    "name": "mavik/image",
+    "type": "library",
+    "license": "MIT",
+    "description": "PHP Library for Image processing and creating thumbnails",
+    "keywords": ["image", "photo", "thumbnail", "thumb", "resize"],
+    "require": {
+        "php": ">=7.2.0"
+    },    
+    "authors": [
+        {
+            "name": "Vitalii Marenkov",
+            "email": "admin@mavik.com.ua"
+        }
+    ],    
+    "autoload": {
+        "psr-4": {
+            "Mavik\\Image\\": "src/",
+            "Mavik\\Image\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8.5.14"
+    }
+}

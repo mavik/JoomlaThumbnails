@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:mavik/Image.git
+	branch = master
+	commit = 1859d6d03445c66d92caf8090018bdfc8d57bf5c
+	parent = 1af8768e13772ac5cbd36999590c608fb1c808a4
+	method = merge
+	cmdver = 0.4.9
