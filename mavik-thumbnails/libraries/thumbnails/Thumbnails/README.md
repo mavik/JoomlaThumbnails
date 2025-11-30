@@ -1,0 +1,1 @@
+PHP Library for replacing images in html to thumbnails.
