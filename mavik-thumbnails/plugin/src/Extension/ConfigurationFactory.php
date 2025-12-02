@@ -21,7 +21,7 @@ class ConfigurationFactory
         );
         $confBase = new ConfBase(
             $params->get('resizeMethod', 'fit'),
-            array_map('intval', $params->get('adaptiveScales', [1, 2, 3])),
+            array_map('floatval', (array) $params->get('adaptiveScales', [1, 1.5, 2])),
             $this->stringToArray($params->get('includeClasses', '')),
             $this->stringToArray($params->get('excludeClasses', '')),
             $params->get('insideLinkAction', ConfBase::USE_DEFAULT_SIZE_NO),

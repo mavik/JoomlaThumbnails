@@ -46,12 +46,12 @@
                 </field>
                 <field name="defaultWidth" type="number" min="0" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_WIDTH" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_WIDTH_DESC" />
                 <field name="defaultHeight" type="number" min="0" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_HEIGHT" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_DEFAULT_HEIGHT_DESC" />
-                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,2,3" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1">
+                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,1.5,2" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1,1.5,2">
                     <option value="1">1x</option>
+                    <option value="1.5">1.5x</option>
                     <option value="2">2x</option>
                     <option value="3">3x</option>
                     <option value="4">4x</option>
-                    <option value="5">5x</option>
                 </field>
             </fieldset>
             <fieldset name="server" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELDSET_SERVER">
