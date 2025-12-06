@@ -18,7 +18,7 @@ use Mavik\Image\ThumbnailsMaker\ResizeStrategyInterface;
 class ImageWithThumbnails extends ImageImmutable
 {
     /** @var ImageImmutable[] */
-    private $thumbnails = [];
+    private $thumbnails;
 
     /** @var ImageSize */
     private $thumbnailSize;
@@ -92,7 +92,7 @@ class ImageWithThumbnails extends ImageImmutable
     /**
      * @return ImageImmutable[]
      */
-    public function thumbnails(): array 
+    public function thumbnails(): array
     {
         if (!isset($this->thumbnails)) {
             if (
@@ -109,7 +109,7 @@ class ImageWithThumbnails extends ImageImmutable
                 );
             } else {
                 $this->thumbnails = [];
-            }  
+            }
         }
         return $this->thumbnails;
     }
