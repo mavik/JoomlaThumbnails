@@ -35,6 +35,18 @@
             "command": "git subrepo pull mavik-thumbnails/libraries/masterminds/html5-php",
             "group": "build",
             "problemMatcher": []
+        },
+        {
+            "label": "Start Xdebug Session",
+            "type": "shell",
+            "command": "firefox \"http://localhost:8000/?XDEBUG_SESSION_START=vscode\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop Xdebug Session",
+            "type": "shell",
+            "command": "firefox \"http://localhost:8000/?XDEBUG_SESSION_STOP=vscode\"",
+            "problemMatcher": []
         }
     ]
 }
