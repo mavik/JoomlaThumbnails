@@ -48,8 +48,9 @@ class ThumbnailsMaker
         array $scales = [1],
     ): array {
         $thumbnails = [];
+        $imageMTime = filemtime($image->getPath());
         foreach ($scales as $scale) {
-            $thumbnail = $this->thumbnailForScale($image, $thumbnailSize, $resizeStrategy, $scale);
+            $thumbnail = $this->thumbnailForScale($image, $thumbnailSize, $resizeStrategy, $scale, $imageMTime);
             if ($thumbnail) {
                 $thumbnails[$scale] = $thumbnail;
             }
@@ -61,7 +62,8 @@ class ThumbnailsMaker
         Image $image,
         ImageSize $thumbnailSize,
         ResizeStrategyInterface $resizeStrategy,
-        float $scale
+        float $scale,
+        int $imageMTime
     ): ?ImageImmutable {
         $originalSize = $image->getSize();
         $scaledThumbnailSize = $resizeStrategy->realThumbnailSize($originalSize, $thumbnailSize->scale($scale));
@@ -73,7 +75,7 @@ class ThumbnailsMaker
             $scaledThumbnailSize,
             $resizeStrategy->name(),
         );
-        if (file_exists($thumbnailPath) && filemtime($thumbnailPath) >= filemtime($image->getPath())) {
+        if (file_exists($thumbnailPath) && filemtime($thumbnailPath) >= $imageMTime) {
             return ImageImmutable::create($thumbnailPath, $this->configuration);
         }
         return $this->createThumbnail(
@@ -91,19 +93,15 @@ class ThumbnailsMaker
         string $filePath
     ): ?ImageImmutable {
         $originalSize = $image->getSize();
-        if (!$thumbnailSize->lessThan($originalSize)) {
-            return null;
-        }
         $originalImageArea = $resizeStrategy->originalImageArea($originalSize, $thumbnailSize);
-        $realThumbnailSize = $resizeStrategy->realThumbnailSize($originalSize, $thumbnailSize);
         $thumbnail = ($image instanceof ImageImmutable ? $image : clone $image)
             ->cropAndResize(
                 $originalImageArea->x,
                 $originalImageArea->y,
                 $originalImageArea->width,
                 $originalImageArea->height,
-                $realThumbnailSize->width,
-                $realThumbnailSize->height
+                $thumbnailSize->width,
+                $thumbnailSize->height
             );
         $thumbnail->save($filePath);
         return $thumbnail;
@@ -115,11 +113,10 @@ class ThumbnailsMaker
         string $resizeStrategyName,
     ): string {
         $imagePath = $image->getPath();
-        if ($imagePath && strpos($imagePath, $this->configuration->webRootDirectory()) === 0) {
+        if ($imagePath && str_starts_with($imagePath, $this->configuration->webRootDirectory())) {
             $imagePath = substr($imagePath, strlen($this->configuration->webRootDirectory()));
         } else {
-            $imagePath = preg_replace('/^\w+\:\/\//', '', $imagePath);
-            ;
+            $imagePath = (string) preg_replace('/^\w+\:\/\//', '', (string) $imagePath);
         }
         $lastDotPosition = strrpos($imagePath, '.') ?: strlen($imagePath);
         return
