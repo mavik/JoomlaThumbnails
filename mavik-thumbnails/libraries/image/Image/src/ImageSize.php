@@ -15,10 +15,10 @@ class ImageSize
 {
     /** @var int|null **/
     public $width;
-    
+
     /** @var int|null **/
-    public $height;    
-    
+    public $height;
+
     public function __construct(?int $width = null, ?int $height = null)
     {
         if (empty($width) && empty($height)) {
@@ -30,21 +30,21 @@ class ImageSize
         $this->width = $width;
         $this->height = $height;
     }
-    
+
     public function scale(float $scale): self
     {
         return new self(
-            max((int)round($this->width * $scale), 1),
-            max((int)round($this->height * $scale), 1)
+            $this->width ? max((int) round($this->width * $scale), 1) : null,
+            $this->height ? max((int) round($this->height * $scale), 1) : null,
         );
     }
-    
+
     public function lessThan(self $size): bool
     {
         return
             $this->width &&
             $size->width &&
-            $this->height && 
+            $this->height &&
             $size->height &&
             $this->width < $size->width &&
             $this->height < $size->height

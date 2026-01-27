@@ -64,7 +64,7 @@ class ThumbnailsMaker
         float $scale
     ): ?ImageImmutable {
         $originalSize = $image->getSize();
-        $scaledThumbnailSize = $thumbnailSize->scale($scale);
+        $scaledThumbnailSize = $resizeStrategy->realThumbnailSize($originalSize, $thumbnailSize->scale($scale));
         if (!$scaledThumbnailSize->lessThan($originalSize)) {
             return null;
         }
@@ -76,29 +76,26 @@ class ThumbnailsMaker
         if (file_exists($thumbnailPath) && filemtime($thumbnailPath) >= filemtime($image->getPath())) {
             return ImageImmutable::create($thumbnailPath, $this->configuration);
         }
-        return $this->createThumbnailForScale(
+        return $this->createThumbnail(
             $image,
-            $thumbnailSize,
+            $scaledThumbnailSize,
             $resizeStrategy,
-            $thumbnailPath,
-            $scale
+            $thumbnailPath
         );
     }
 
-    private function createThumbnailForScale(
+    private function createThumbnail(
         Image $image,
         ImageSize $thumbnailSize,
         ResizeStrategyInterface $resizeStrategy,
-        string $filePath,
-        float $scale
+        string $filePath
     ): ?ImageImmutable {
         $originalSize = $image->getSize();
-        $scaledThumbnailSize = $thumbnailSize->scale($scale);
-        if (!$scaledThumbnailSize->lessThan($originalSize)) {
+        if (!$thumbnailSize->lessThan($originalSize)) {
             return null;
         }
-        $originalImageArea = $resizeStrategy->originalImageArea($originalSize, $scaledThumbnailSize);
-        $realThumbnailSize = $resizeStrategy->realThumbnailSize($originalSize, $scaledThumbnailSize);
+        $originalImageArea = $resizeStrategy->originalImageArea($originalSize, $thumbnailSize);
+        $realThumbnailSize = $resizeStrategy->realThumbnailSize($originalSize, $thumbnailSize);
         $thumbnail = ($image instanceof ImageImmutable ? $image : clone $image)
             ->cropAndResize(
                 $originalImageArea->x,
@@ -121,7 +118,8 @@ class ThumbnailsMaker
         if ($imagePath && strpos($imagePath, $this->configuration->webRootDirectory()) === 0) {
             $imagePath = substr($imagePath, strlen($this->configuration->webRootDirectory()));
         } else {
-            $imagePath = preg_replace('/^\w+\:\/\//', '', $imagePath);;
+            $imagePath = preg_replace('/^\w+\:\/\//', '', $imagePath);
+            ;
         }
         $lastDotPosition = strrpos($imagePath, '.') ?: strlen($imagePath);
         return
