@@ -9,11 +9,11 @@
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "Mavik\\JoomlaThumbnails\\": "plugin/src/",
+            "Mavik\\JoomlaThumbnails\\": "mavik-thumbnails/plugin/src/",
             "Mavik\\Image\\": "mavik-thumbnails/libraries/image/Image/src",
             "Mavik\\Image\\Tests\\": "mavik-thumbnails/libraries/image/Image/tests",
-            "Mavik\\Thumbnails\\": "mavik-thumbnails/libraries/thumbnails/src",
-            "Mavik\\Thumbnails\\Tests\\": "mavik-thumbnails/libraries/thumbnails/tests"
+            "Mavik\\Thumbnails\\": "mavik-thumbnails/libraries/thumbnails/Thumbnails/src",
+            "Mavik\\Thumbnails\\Tests\\": "mavik-thumbnails/libraries/thumbnails/Thumbnails/tests"
         }
     },
     "authors": [
