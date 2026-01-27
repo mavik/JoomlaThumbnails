@@ -21,13 +21,13 @@ use Mavik\Thumbnails\Specification\Image\ReplaceWithThumbnail as ReplaceWithThum
 use Mavik\Thumbnails\Specification\Image\UseDefaultSize as UseDefaultSizeSpecification;
 
 class Thumbnails
-{   
+{
     /** @var ImageFactory */
     private $imageFactory;
 
     /** @var \SplObjectStorage */
     private $actions;
-    
+
     public function __construct(Configuration $configuration)
     {
         $serverConfiguration = $configuration->server();
@@ -41,7 +41,7 @@ class Thumbnails
         $this->actions = new \SplObjectStorage();
         $this->addActionDefaultSize($configuration);
         $this->addActionPopUp($configuration);
-        $this->addActionReplaceToThumbnail($configuration);        
+        $this->addActionReplaceToThumbnail($configuration);
     }
 
     private function addActionDefaultSize(Configuration $configuration): void
@@ -49,7 +49,7 @@ class Thumbnails
         $action = new Action\UseDefaultSize($configuration);
         $this->actions[$action] = new UseDefaultSizeSpecification($configuration);
     }
-    
+
     private function addActionReplaceToThumbnail(Configuration $configuration): void
     {
         $action = new Action\ReplaceToThumbnail($configuration);
@@ -79,11 +79,12 @@ class Thumbnails
         foreach ($document->findImages() as $imageTag) {
             $this->doActions($imageTag, $jsAndCss);
         }
-        return new Result((string)$document, $jsAndCss);
+        return new Result((string) $document, $jsAndCss);
     }
-    
+
     private function doActions(Image $image, JsAndCss $jsAndCss): void
     {
+        $this->actions->rewind();
         while ($this->actions->valid()) {
             $specification = $this->actions->getInfo();
             if ($specification->isSatisfiedBy($image)) {
