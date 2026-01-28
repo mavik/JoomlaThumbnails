@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Mavik\Thumbnails;
 
 use Mavik\Image\ImageFactory;
-use Mavik\Image\ImageImmutable;
 use Mavik\Image\Configuration as ImageFactoryConfiguration;
 use Mavik\Thumbnails\Html\Document;
 use Mavik\Thumbnails\Html\Image;
@@ -84,15 +83,11 @@ class Thumbnails
 
     private function doActions(Image $image, JsAndCss $jsAndCss): void
     {
-        $this->actions->rewind();
-        while ($this->actions->valid()) {
+        foreach ($this->actions as $action) {
             $specification = $this->actions->getInfo();
             if ($specification->isSatisfiedBy($image)) {
-                $action = $this->actions->current();
                 $action($image, $jsAndCss);
             }
-            $this->actions->next();
         }
-
     }
 }
