@@ -33,26 +33,26 @@ class ImageFactory
     {
         return Image::create($src, $this->configuration);
     }
-    
+
     public function createFromString(string $src): Image
     {
         return Image::createFromString($src, $this->configuration);
     }
-    
+
     public function createImmutable(string $src): ImageImmutable
     {
         return ImageImmutable::create($src, $this->configuration);
     }
-    
+
     public function createImmutableFromString(string $src): ImageImmutable
     {
         return ImageImmutable::createFromString($src, $this->configuration);
     }
-    
+
     public function createImageWithThumbnails(
         string $src,
-        int $thumbnailWidth = null,
-        int $thumbnailHeight = null,
+        ?int $thumbnailWidth = null,
+        ?int $thumbnailHeight = null,
         string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
@@ -65,11 +65,11 @@ class ImageFactory
             $thumbnailScales,
         );
     }
-    
+
     public function createImageWithThumbnailsFromString(
         string $content,
-        int $thumbnailWidth = null,
-        int $thumbnailHeight = null,
+        ?int $thumbnailWidth = null,
+        ?int $thumbnailHeight = null,
         string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
@@ -87,7 +87,7 @@ class ImageFactory
         Image $image,
         int $thumbWidth,
         int $thumbHeight,
-        string $resizeType ='stretch',
+        string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
         return ImageWithThumbnails::convertImage(
