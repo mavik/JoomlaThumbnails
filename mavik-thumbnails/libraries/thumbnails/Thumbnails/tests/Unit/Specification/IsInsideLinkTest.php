@@ -24,7 +24,7 @@ class IsInsideLinkTest extends TestCase
     {
         parent::__construct();
         $this->configuration = new Configuration(
-            new Configuration\Server('', ''),
+            new Configuration\Server('', '', ''),
             new Configuration\Base()
         );
     }
@@ -32,35 +32,35 @@ class IsInsideLinkTest extends TestCase
     public function testTrue()
     {
         $dom = new \DOMDocument();
-        
+
         $aTag = $dom->createElement('a');
         $aTag->setAttribute('href', 'test');
         $dom->appendChild($aTag);
-        
+
         $pTag = $dom->createElement('p');
         $aTag->appendChild($pTag);
-        
+
         $imgTag = $dom->createElement('img');
         $pTag->appendChild($imgTag);
-        
+
         $isInsideLink = new IsInsideLink($this->configuration);
         $this->assertTrue($isInsideLink($imgTag));
     }
-    
+
     public function testFalse()
     {
         $dom = new \DOMDocument();
-        
+
         $aTagWithoutHref = $dom->createElement('a');
         $dom->appendChild($aTagWithoutHref);
-        
+
         $divWithHref = $dom->createElement('div');
-        $divWithHref->setAttribute('href', 'test');        
+        $divWithHref->setAttribute('href', 'test');
         $aTagWithoutHref->appendChild($divWithHref);
-        
+
         $imgTag = $dom->createElement('img');
         $divWithHref->appendChild($imgTag);
-        
+
         $isInsideLink = new IsInsideLink($this->configuration);
         $this->assertFalse($isInsideLink($imgTag));
     }

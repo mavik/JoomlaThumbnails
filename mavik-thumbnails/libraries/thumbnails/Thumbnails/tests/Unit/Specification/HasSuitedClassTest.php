@@ -27,13 +27,13 @@ class HasSuitedClassTest extends TestCase
         $imgTag = $dom->createElement('img');
         $imgTag->setAttribute('class', $imgClass);
         $configuration = new Configuration(
-            new Configuration\Server('', ''),
+            new Configuration\Server('', '', ''),
             new Configuration\Base('', [1], $include, $exclude)
         );
-        $hasSuitedClass = new HasSuitedClass($configuration);        
+        $hasSuitedClass = new HasSuitedClass($configuration);
         $this->assertEquals($result, $hasSuitedClass($imgTag));
     }
-    
+
     public function dataProvider(): array
     {
         return [
@@ -65,7 +65,7 @@ class HasSuitedClassTest extends TestCase
                 " class1 ",
                 ['class1', 'class2'],
                 [],
-                true,        
+                true,
             ],
             5 => [
                 " class1 \n class2 ",
@@ -77,7 +77,7 @@ class HasSuitedClassTest extends TestCase
                 " class1 \n class2 ",
                 ['class2'],
                 [],
-                true,                
+                true,
             ],
             7 => [
                 " class1 \n class2 ",
