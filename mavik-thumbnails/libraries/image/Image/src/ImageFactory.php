@@ -29,35 +29,64 @@ class ImageFactory
         $this->configuration = $configuration;
     }
 
-    public function create(string $src): Image
+    /**
+     * Create mutable image from file
+     *
+     * @param string $source URL or path to file
+     */
+    public function create(string $source): Image
     {
-        return Image::create($src, $this->configuration);
+        return Image::create($source, $this->configuration);
     }
 
-    public function createFromString(string $src): Image
+    /**
+     * Create mutable image from string content
+     *
+     * @param string $string String content of the image
+     */
+    public function createFromString(string $string): Image
     {
-        return Image::createFromString($src, $this->configuration);
+        return Image::createFromString($string, $this->configuration);
     }
 
-    public function createImmutable(string $src): ImageImmutable
+    /**
+     * Create immutable image from file
+     * 
+     * @param string $source URL or path to file
+     */
+    public function createImmutable(string $source): ImageImmutable
     {
-        return ImageImmutable::create($src, $this->configuration);
+        return ImageImmutable::create($source, $this->configuration);
     }
 
-    public function createImmutableFromString(string $src): ImageImmutable
+    /**
+     * Create immutable image from string content
+     * 
+     * @param string $string String content of the image
+     */
+    public function createImmutableFromString(string $string): ImageImmutable
     {
-        return ImageImmutable::createFromString($src, $this->configuration);
+        return ImageImmutable::createFromString($string, $this->configuration);
     }
 
+    /**
+     * Create image with thumbnails from file
+     *
+     * @param string $source URL or path to file
+     * @param int|null $thumbnailWidth Thumbnail width
+     * @param int|null $thumbnailHeight Thumbnail height
+     * @param string $resizeType Resize type
+     * @param int[] $thumbnailScales Thumbnail scales
+     */
     public function createImageWithThumbnails(
-        string $src,
+        string $source,
         ?int $thumbnailWidth = null,
         ?int $thumbnailHeight = null,
         string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
         return ImageWithThumbnails::create(
-            $src,
+            $source,
             $this->configuration,
             new ImageSize($thumbnailWidth, $thumbnailHeight),
             ResizeStrategyFactory::create($resizeType),
@@ -66,15 +95,24 @@ class ImageFactory
         );
     }
 
+    /**
+     * Create image with thumbnails from string content
+     *
+     * @param string $string String content of the image
+     * @param int|null $thumbnailWidth Thumbnail width
+     * @param int|null $thumbnailHeight Thumbnail height
+     * @param string $resizeType Resize type
+     * @param int[] $thumbnailScales Thumbnail scales
+     */
     public function createImageWithThumbnailsFromString(
-        string $content,
+        string $string,
         ?int $thumbnailWidth = null,
         ?int $thumbnailHeight = null,
         string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
         return ImageWithThumbnails::createFromString(
-            $content,
+            $string,
             $this->configuration,
             new ImageSize($thumbnailWidth, $thumbnailHeight),
             ResizeStrategyFactory::create($resizeType),
@@ -83,6 +121,15 @@ class ImageFactory
         );
     }
 
+    /**
+     * Convert existing Image object to ImageWithThumbnails
+     *
+     * @param Image $image Image object
+     * @param int $thumbWidth Thumbnail width
+     * @param int $thumbHeight Thumbnail height
+     * @param string $resizeType Resize type
+     * @param int[] $thumbnailScales Thumbnail scales
+     */
     public function convertImageToImageWithThumbnails(
         Image $image,
         int $thumbWidth,
@@ -100,6 +147,9 @@ class ImageFactory
         );
     }
 
+    /**
+     * Get or create ThumbnailsMaker instance
+     */
     private function thumbnailsMaker(): ThumbnailsMaker
     {
         if (!isset($this->thumbnailsMaker)) {
