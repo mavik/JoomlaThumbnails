@@ -11,6 +11,9 @@ declare(strict_types=1);
  */
 namespace Mavik\Image;
 
+/**
+ * Represents an image and provides methods for its processing and manipulation.
+ */
 class Image
 {
     /** @var mixed */
@@ -64,6 +67,12 @@ class Image
         return $image;
     }
 
+    /**
+     * Save the image to the file
+     *
+     * @param string $path Path to save the image
+     * @throws \RuntimeException
+     */
     public function save(string $path): static
     {
         $dir = dirname($path);

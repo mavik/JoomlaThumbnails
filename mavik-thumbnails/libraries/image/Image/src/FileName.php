@@ -16,32 +16,32 @@ use Mavik\Image\Exception;
 use Mavik\Image\Exception\FileException;
 
 /**
- * Manipulations with pathes and URLs
+ * Manipulations with file paths and URLs
  */
 class FileName
 {
     /** @var string */
     private $webRootDir;
-    
+
     /** @var string */
     private $baseUri;
-    
+
     /** @var string */
     private $src;
 
     /** @var string */
     private $path;
-    
+
     /** @var string */
     private $url;
-    
+
     public function __construct(string $src, string $baseUri, string $webRootDir)
     {
         $this->src = $src;
         $this->baseUri = $baseUri;
         $this->webRootDir = $webRootDir;
     }
-    
+
     public function getPath(): ?string
     {
         if (!isset($this->path)) {
@@ -49,7 +49,7 @@ class FileName
         }
         return $this->path;
     }
-    
+
     public function getUrl(): string
     {
         if (!isset($this->url)) {
@@ -57,9 +57,9 @@ class FileName
         }
         return $this->url;
     }
-    
+
     private function init(): void
-    {        
+    {
         if (preg_match('/^(http|https)\:\/\//', $this->src)) {
             $this->initFromAbsoluteUrl();
         } elseif (file_exists($this->src)) {
@@ -68,9 +68,9 @@ class FileName
             $this->initFromRelativeUrl();
         } else {
             throw new FileException("\"{$this->src}\" is not recognized as path or URL.");
-        }        
+        }
     }
-    
+
     private function initFromAbsoluteUrl(): void
     {
         $this->url = $this->src;
@@ -78,21 +78,21 @@ class FileName
             $this->path = $this->absoluteUrlToPath($this->src);
         }
     }
-    
+
     private function initFromRelativeUrl(): void
-    {        
+    {
         $this->url = $this->relativeUrlToAbsolute($this->src);
         $this->path = $this->absoluteUrlToPath($this->url);
     }
 
     private function initFromPath(): void
-    {        
+    {
         $this->path = stream_resolve_include_path($this->src);
         $this->url = $this->absolutePathToUrl($this->path);
     }
 
     private function isLocalUrl(string $url): bool
-    {        
+    {
         $urlParts = parse_url($url);
         $baseUrlParts = parse_url($this->baseUri);
         return
@@ -100,7 +100,7 @@ class FileName
             strpos($urlParts['path'], $baseUrlParts['path']) === 0
         ;
     }
-    
+
     private function hostWithoutWww(string $host): string
     {
         return strpos($host, 'www.') === 0
@@ -108,7 +108,7 @@ class FileName
             : $host
         ;
     }
-    
+
     private function absoluteUrlToPath(string $url): ?string
     {
         $baseUrlParts = parse_url($this->baseUri);
@@ -116,13 +116,13 @@ class FileName
         if (isset($urlParts['query']) && $urlParts['query'] !== '') {
             return null;
         }
-        $baseUrlPath = $baseUrlParts['path'] ?? '';        
+        $baseUrlPath = $baseUrlParts['path'] ?? '';
         if ($baseUrlPath !== '' && strpos($urlParts['path'], $baseUrlPath) !== 0) {
             throw new FileException("URL \"{$url}\" can't be converted to path.");
-        }        
+        }
         return $this->webRootDir . substr($urlParts['path'], strlen($baseUrlPath));
     }
-    
+
     private function relativeUrlToAbsolute(string $url): string
     {
         if (strpos($url, '/') === 0) {
@@ -134,12 +134,12 @@ class FileName
     }
 
     private function absolutePathToUrl(string $path): string
-    {        
+    {
         if (strpos($path, $this->webRootDir) !== 0) {
             throw new FileException("Path \"{$path}\" is not in web directory");
         }
-        return 
-            $this->baseUri . 
+        return
+            $this->baseUri .
             substr(str_replace('\\', '/', $path), strlen($this->webRootDir))
         ;
     }
@@ -150,7 +150,7 @@ class FileName
      * @throws Exception
      */
     private function normalizePath(string $path): string
-    {        
+    {
         $parts = explode('/', $path);
         for ($i = count($parts) - 1; $i >= 0; --$i) {
             $part = $parts[$i];

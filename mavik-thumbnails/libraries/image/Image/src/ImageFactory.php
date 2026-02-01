@@ -62,11 +62,11 @@ class ImageFactory
     /**
      * Create immutable image from string content
      * 
-     * @param string $string String content of the image
+     * @param string $content String content of the image
      */
-    public function createImmutableFromString(string $string): ImageImmutable
+    public function createImmutableFromString(string $content): ImageImmutable
     {
-        return ImageImmutable::createFromString($string, $this->configuration);
+        return ImageImmutable::createFromString($content, $this->configuration);
     }
 
     /**
@@ -98,21 +98,21 @@ class ImageFactory
     /**
      * Create image with thumbnails from string content
      *
-     * @param string $string String content of the image
+     * @param string $content String content of the image
      * @param int|null $thumbnailWidth Thumbnail width
      * @param int|null $thumbnailHeight Thumbnail height
      * @param string $resizeType Resize type
      * @param int[] $thumbnailScales Thumbnail scales
      */
     public function createImageWithThumbnailsFromString(
-        string $string,
+        string $content,
         ?int $thumbnailWidth = null,
         ?int $thumbnailHeight = null,
         string $resizeType = 'stretch',
         array $thumbnailScales = [1]
     ): ImageWithThumbnails {
         return ImageWithThumbnails::createFromString(
-            $string,
+            $content,
             $this->configuration,
             new ImageSize($thumbnailWidth, $thumbnailHeight),
             ResizeStrategyFactory::create($resizeType),

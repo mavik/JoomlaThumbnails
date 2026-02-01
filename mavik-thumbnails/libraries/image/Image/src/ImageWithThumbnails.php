@@ -15,6 +15,9 @@ namespace Mavik\Image;
 use Mavik\Image\ThumbnailsMaker;
 use Mavik\Image\ThumbnailsMaker\ResizeStrategyInterface;
 
+/**
+ * Represents an immutable image with support for thumbnail generation.
+ */
 class ImageWithThumbnails extends ImageImmutable
 {
     /** @var ImageImmutable[] */
@@ -35,9 +38,9 @@ class ImageWithThumbnails extends ImageImmutable
     public static function create(
         string $src,
         Configuration $configuration,
-        ImageSize $thumbnailSize = null,
-        ResizeStrategyInterface $resizeStrategy = null,
-        ThumbnailsMaker $thumbnailsMaker = null,
+        ?ImageSize $thumbnailSize = null,
+        ?ResizeStrategyInterface $resizeStrategy = null,
+        ?ThumbnailsMaker $thumbnailsMaker = null,
         array $thumbnailScails = [1],
     ): static {
         $image = parent::create($src, $configuration);
@@ -51,9 +54,9 @@ class ImageWithThumbnails extends ImageImmutable
     public static function createFromString(
         string $content,
         Configuration $configuration,
-        ImageSize $thumbnailSize = null,
-        ResizeStrategyInterface $resizeStrategy = null,
-        ThumbnailsMaker $thumbnailsMaker = null,
+        ?ImageSize $thumbnailSize = null,
+        ?ResizeStrategyInterface $resizeStrategy = null,
+        ?ThumbnailsMaker $thumbnailsMaker = null,
         array $thumbnailScails = [1],
     ): static {
         $image = parent::createFromString($content, $configuration);
@@ -70,9 +73,9 @@ class ImageWithThumbnails extends ImageImmutable
     public static function convertImage(
         Image $image,
         Configuration $configuration,
-        ImageSize $thumbnailSize = null,
-        ResizeStrategyInterface $resizeStrategy = null,
-        ThumbnailsMaker $thumbnailsMaker = null,
+        ?ImageSize $thumbnailSize = null,
+        ?ResizeStrategyInterface $resizeStrategy = null,
+        ?ThumbnailsMaker $thumbnailsMaker = null,
         array $thumbnailScails = [1],
     ): static {
         $imageWithThumbnails = new static($configuration);
