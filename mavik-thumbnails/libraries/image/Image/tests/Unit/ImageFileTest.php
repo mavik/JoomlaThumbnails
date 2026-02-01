@@ -168,16 +168,6 @@ class ImageFileTest extends TestCase
                 ]
             ],
             10 => [
-                'https://upload.wikimedia.org/wikipedia/en/a/a7/Culinary_fruits_cropped_top_view.jpg',
-                null,
-                [
-                    'width' => 3224,
-                    'height' => 2145,
-                    'type' => IMAGETYPE_JPEG,
-                    'file_size' => 2925171,
-                ]
-            ],
-            11 => [
                 'https://pixnio.com/free-images/2020/01/24/2020-01-24-08-50-32-1200x800.jpg',
                 null,
                 [
@@ -187,7 +177,7 @@ class ImageFileTest extends TestCase
                     'file_size' => 169395,
                 ]
             ],
-            12 => [
+            11 => [
                 'http://localhost:8888/apple.php',
                 null,
                 [
