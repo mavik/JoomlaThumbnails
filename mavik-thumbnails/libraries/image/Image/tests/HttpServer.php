@@ -11,8 +11,9 @@ class HttpServer
             return;
         }
 
-        $webRoot = __DIR__ . '/resources/images';
-        self::$pid = shell_exec("php -S localhost:8888 -t {$webRoot} > /dev/null 2>&1 & echo $!");
+        $webDir = __DIR__ . '/resources/images';
+        $router = "{$webDir}/route.php";
+        self::$pid = shell_exec("php -S localhost:8888 -t {$webDir} {$router} > /dev/null 2>&1 & echo $!");
 
         $count = 0;
         do {
