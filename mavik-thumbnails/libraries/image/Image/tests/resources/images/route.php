@@ -10,7 +10,7 @@ if ($path !== '/' && file_exists($file)) {
     preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
     $start = intval($matches[1]);
     $end = isset($matches[2]) ? intval($matches[2]) : $size - 1;
-    if ($start >= $size || $end >= $size || $start > $end) {
+    if ($start >= $size || $start > $end) {
         header("HTTP/1.1 416 Range Not Satisfiable");
         header("Content-Range: bytes */$size");
         exit;

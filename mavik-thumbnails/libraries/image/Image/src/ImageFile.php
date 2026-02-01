@@ -127,14 +127,20 @@ class ImageFile
             'http' => [
                 'header' => "Range: bytes=0-65536\r\n"
                     . "User-Agent: mavikImage/1.0",
+                'ignore_errors' => true,
             ]
         ]);
         $imageData = @file_get_contents($this->url, false, $context, 0, 65536);
-        if ($imageData === false) {
-            throw new FileException("Can't open URL \"{$this->url}\"");
-        }
         // The special var $http_response_header is setted by PHP in file_get_contents()
         $httpHeaders = $this->parseHttpHeaders($http_response_header);
+        $httpCode = $httpHeaders['response_code'];
+        if ($httpCode > 299 || $httpCode < 200) {
+            $error = "Can't open URL \"{$this->url}\"\n"
+                . "Headers: \n" . print_r($httpHeaders, true)
+                . "Content: \n{$imageData}"
+            ;
+            throw new FileException($error);
+        }
         $this->fileSize = $this->fileSizeFromHttpHeaders($httpHeaders);
         if (!isset($this->fileSize)) {
             $imageData = file_get_contents($this->url);
