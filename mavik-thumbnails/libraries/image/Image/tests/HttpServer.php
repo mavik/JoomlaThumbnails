@@ -10,6 +10,10 @@ class HttpServer
         if (isset(self::$pid)) {
             return;
         }
+        $content = @file_get_contents('http://localhost:8888');
+        if (!empty($content)) {
+            return;
+        }
 
         $webDir = __DIR__ . '/resources/images';
         $router = "{$webDir}/route.php";

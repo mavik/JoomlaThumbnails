@@ -13,9 +13,13 @@ namespace Mavik\Image\Tests\Unit\GraphicLibrary;
 use Mavik\Image\Tests\Unit\GraphicLibrary\AbstractTest;
 use Mavik\Image\GraphicLibrary\Gmagick;
 
+/**
+ * @runTestsInSeparateProcess
+ * @preserveGlobalState disabled
+ */
 class GmagickTest extends AbstractTest
 {
-    
+
     public static function setUpBeforeClass(): void
     {
         if (!extension_loaded('gmagick')) {
@@ -24,10 +28,10 @@ class GmagickTest extends AbstractTest
             if (!$isExtensionLoaded) {
                 self::markTestSkipped('Extension gmagick is not loaded');
             }
-        }               
+        }
         parent::setUpBeforeClass();
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::open
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToOpen
@@ -37,10 +41,10 @@ class GmagickTest extends AbstractTest
         if (!$this->isTypeSpported($imgType)) {
             $this->markTestSkipped();
             return;
-        }        
+        }
         parent::testOpen($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::save
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToSave
@@ -53,12 +57,12 @@ class GmagickTest extends AbstractTest
         }
         parent::testSave($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::getWidth
      * @covers Mavik\Image\GraphicLibrary\Gmagick::getHeight
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesSize
-     */    
+     */
     public function testSize(string $src, int $imgType, int $width, int $height)
     {
         parent::testSize($src, $imgType, $width, $height);
@@ -70,9 +74,9 @@ class GmagickTest extends AbstractTest
      */
     public function testClone(string $src, int $imgType)
     {
-        parent::testClone($src, $imgType);        
+        parent::testClone($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::crop
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCrop
@@ -85,7 +89,7 @@ class GmagickTest extends AbstractTest
         }
         parent::testCrop($imgType, $x, $y, $width, $height, $src, $expectedFile);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::resize
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToResize
@@ -98,7 +102,7 @@ class GmagickTest extends AbstractTest
         }
         parent::testResize($imgType, $width, $height, $src, $expectedFile);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Gmagick::cropAndResize
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCropAndResize
@@ -110,8 +114,8 @@ class GmagickTest extends AbstractTest
             return;
         }
         parent::testCropAndResize($imgType, $x, $y, $width, $height, $toWidth, $toHeight, $src, $expectedFile);
-    }    
-    
+    }
+
     protected function newInstance(): Gmagick
     {
         return new Gmagick();
@@ -122,8 +126,9 @@ class GmagickTest extends AbstractTest
         $this->assertInstanceOf('Gmagick', $resource);
     }
 
-    private function isTypeSpported(int $type): bool {
-        return 
+    private function isTypeSpported(int $type): bool
+    {
+        return
             $type != IMAGETYPE_WEBP ||
             in_array('WEBP', (new \Gmagick())->queryFormats())
         ;

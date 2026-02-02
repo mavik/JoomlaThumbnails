@@ -13,9 +13,13 @@ namespace Mavik\Image\Tests\Unit\GraphicLibrary;
 use Mavik\Image\Tests\Unit\GraphicLibrary\AbstractTest;
 use Mavik\Image\GraphicLibrary\Imagick;
 
+/**
+ * @runTestsInSeparateProcess
+ * @preserveGlobalState disabled
+ */
 class ImagickTest extends AbstractTest
 {
-    
+
     public static function setUpBeforeClass(): void
     {
         if (!extension_loaded('imagick')) {
@@ -24,10 +28,10 @@ class ImagickTest extends AbstractTest
             if (!$isExtensionLoaded) {
                 self::markTestSkipped('Extension imagick is not loaded');
             }
-        }               
+        }
         parent::setUpBeforeClass();
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Imagick::open
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToOpen
@@ -37,10 +41,10 @@ class ImagickTest extends AbstractTest
         if (!$this->isTypeSpported($imgType)) {
             $this->markTestSkipped();
             return;
-        }        
+        }
         parent::testOpen($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Imagick::save
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToSave
@@ -53,12 +57,12 @@ class ImagickTest extends AbstractTest
         }
         parent::testSave($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Imagick::getWidth
      * @covers Mavik\Image\GraphicLibrary\Imagick::getHeight
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesSize
-     */    
+     */
     public function testSize(string $src, int $imgType, int $width, int $height)
     {
         parent::testSize($src, $imgType, $width, $height);
@@ -70,9 +74,9 @@ class ImagickTest extends AbstractTest
      */
     public function testClone(string $src, int $imgType)
     {
-        parent::testClone($src, $imgType);        
+        parent::testClone($src, $imgType);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Imagick::crop
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCrop
@@ -85,7 +89,7 @@ class ImagickTest extends AbstractTest
         }
         parent::testCrop($imgType, $x, $y, $width, $height, $src, $expectedFile);
     }
-    
+
     /**
      * @covers Mavik\Image\GraphicLibrary\Imagick::resize
      * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToResize
@@ -111,7 +115,7 @@ class ImagickTest extends AbstractTest
         }
         parent::testCropAndResize($imgType, $x, $y, $width, $height, $toWidth, $toHeight, $src, $expectedFile);
     }
-    
+
     protected function newInstance(): Imagick
     {
         return new Imagick();
@@ -122,8 +126,9 @@ class ImagickTest extends AbstractTest
         $this->assertInstanceOf('Imagick', $resource);
     }
 
-    private function isTypeSpported(int $type): bool {
-        return 
+    private function isTypeSpported(int $type): bool
+    {
+        return
             $type != IMAGETYPE_WEBP ||
             in_array('WEBP', \Imagick::queryFormats())
         ;
