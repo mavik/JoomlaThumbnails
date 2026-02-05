@@ -25,7 +25,7 @@ class Gd2 implements GraphicLibraryInterface
 
     private $configuration = [];
 
-    /** @var array|SplObjectStorage */
+    /** @var array|\SplObjectStorage */
     private $typesMap;
 
     public function __construct(array $configuration = [])
@@ -160,8 +160,8 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     public function clone($image)
     {
@@ -192,7 +192,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
+     * @param \GDImage $image
      */
     public function getHeight($image): int
     {
@@ -200,7 +200,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
+     * @param \GDImage $image
      */
     public function getWidth($image): int
     {
@@ -208,33 +208,24 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     public function crop($image, int $x, int $y, int $width, int $height, bool $immutable = false)
     {
-        $imageType = $this->getType($image);
-        if ($imageType == IMAGETYPE_JPEG || $imageType == IMAGETYPE_WBMP) {
-            $newImage = imagecrop($image, [
-                'x' => $x,
-                'y' => $y,
-                'width' => $width,
-                'height' => $height
-            ]);
-            if (!$immutable) {
-                $this->close($image);
-            }
-            $this->mapType($newImage, $imageType);
-            return $newImage;
-        } else {
-            // imagecrop works incorrect with indexed images with transparent
-            return $this->cropAndResize($image, $x, $y, $width, $height, $width, $height, $immutable);
+        $result = imageistruecolor($image)
+            ? $this->cropTrueColor($image, $x, $y, $width, $height)
+            : $this->cropIndexedImage($image, $x, $y, $width, $height)
+        ;
+        if (empty($immutable)) {
+            $this->close($image);
         }
+        return $result;
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     public function resize($image, int $width, int $height, bool $immutable = false)
     {
@@ -242,21 +233,51 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     public function cropAndResize($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable = false)
     {
-        if (imagecolorstotal($image)) {
-            return $this->cropAndResizeIndexedColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
-        } else {
+        if (imageistruecolor($image)) {
             return $this->cropAndResizeTrueColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
+        } else {
+            return $this->cropAndResizeIndexedColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
         }
+    }
+    private function cropTrueColor(\GDImage $image, int $x, int $y, int $width, int $height): \GDImage
+    {
+        $newImage = imagecreatetruecolor($width, $height);
+        imagealphablending($newImage, false);
+        imagesavealpha($newImage, true);
+        $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
+        imagefill($newImage, 0, 0, $transparent);
+        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
+        return $newImage;
+    }
+
+    private function cropIndexedImage(\GDImage $image, int $x, int $y, int $width, int $height): \GDImage
+    {
+        $newImage = imagecreate($width, $height);
+        imagepalettecopy($newImage, $image);
+        $transparentIndex = imagecolortransparent($image);
+        if ($transparentIndex >= 0) {
+            $transparentRgb = imagecolorsforindex($image, $transparentIndex);
+            $newTransparentIndex = imagecolorresolve(
+                $newImage,
+                $transparentRgb['red'],
+                $transparentRgb['green'],
+                $transparentRgb['blue']
+            );
+            imagefill($newImage, 0, 0, $newTransparentIndex);
+            imagecolortransparent($newImage, $newTransparentIndex);
+        }
+        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
+        return $newImage;
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     private function cropAndResizeTrueColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
@@ -267,7 +288,7 @@ class Gd2 implements GraphicLibraryInterface
             imagealphablending($newImage, false);
             imagesavealpha($newImage, true);
             $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
-            imagefilledrectangle($newImage, 0, 0, $width, $height, $transparent);
+            imagefilledrectangle($newImage, 0, 0, $toWidth, $toHeight, $transparent);
         }
         imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height);
         if (!$immutable) {
@@ -277,8 +298,8 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
-     * @return resource|\GDImage
+     * @param \GDImage $image
+     * @return \GDImage
      */
     private function cropAndResizeIndexedColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
@@ -288,15 +309,20 @@ class Gd2 implements GraphicLibraryInterface
         $transparentIndex = imagecolortransparent($image);
         if ($transparentIndex >= 0) {
             $transparentRgb = imagecolorsforindex($image, $transparentIndex);
-            $newTransparentIndex = imagecolorexact($newImage, $transparentRgb['red'], $transparentRgb['green'], $transparentRgb['blue']);
-            imagefilledrectangle($newImage, 0, 0, $width, $height, $newTransparentIndex);
+            $newTransparentIndex = imagecolorresolve($newImage, $transparentRgb['red'], $transparentRgb['green'], $transparentRgb['blue']);
+            imagefilledrectangle($newImage, 0, 0, $toWidth, $toHeight, $newTransparentIndex);
             imagecolortransparent($newImage, $newTransparentIndex);
         }
 
-        imagecopyresized($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height);
+        imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height);
 
         $colorNumbers = imagecolorstotal($image);
         imagetruecolortopalette($newImage, false, $colorNumbers);
+
+        if ($transparentIndex >= 0) {
+            $newTransparentIndex = imagecolorresolve($newImage, $transparentRgb['red'], $transparentRgb['green'], $transparentRgb['blue']);
+            imagecolortransparent($newImage, $newTransparentIndex);
+        }
 
         if (!$immutable) {
             $this->close($image);
