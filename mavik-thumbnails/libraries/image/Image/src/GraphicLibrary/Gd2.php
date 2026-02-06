@@ -23,10 +23,8 @@ class Gd2 implements GraphicLibraryInterface
         'webp_quality' => 95,
     ];
 
-    private $configuration = [];
-
-    /** @var \SplObjectStorage */
-    private $typesMap;
+    private array $configuration = [];
+    private \SplObjectStorage $typesMap;
 
     public function __construct(array $configuration = [])
     {
@@ -40,57 +38,56 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GdImage $image
      * @param int $type IMAGETYPE_XXX
      */
-    private function mapType($image, int $type): void
+    private function mapType(\GdImage $image, int $type): void
     {
         $this->typesMap[$image] = $type;
     }
 
     /**
-     * @param \GdImage $image
      * @return int IMAGETYPE_XXX
      */
-    private function getType($image): int
+    private function getType(\GdImage $image): int
     {
-        return $this->typesMap[$image];
+        return (int) $this->typesMap[$image];
     }
 
     /**
      * @param \GdImage $image
      */
-    private function unmapType($image): void
+    private function unmapType(\GdImage $image): void
     {
         unset($this->typesMap[$image]);
     }
 
     /**
-     * @return \GDImage
      * @throws GraphicLibraryException
      */
-    public function load(ImageFile $file)
+    public function load(ImageFile $file): \GdImage
     {
         $src = $file->getPath() ?: $file->getUrl();
         $type = $file->getType();
         switch ($type) {
             case IMAGETYPE_JPEG:
-                $image = imagecreatefromjpeg($src);
+                $image = @imagecreatefromjpeg($src);
                 break;
             case IMAGETYPE_PNG:
-                $image = imagecreatefrompng($src);
-                imagealphablending($image, false);
+                $image = @imagecreatefrompng($src);
+                if ($image) {
+                    imagealphablending($image, false);
+                }
                 break;
             case IMAGETYPE_GIF:
-                $image = imagecreatefromgif($src);
+                $image = @imagecreatefromgif($src);
                 break;
             case IMAGETYPE_WEBP:
-                $image = imagecreatefromwebp($src);
+                $image = @imagecreatefromwebp($src);
                 break;
             default:
                 throw new GraphicLibraryException('Trying to open unsupported type of image ' . image_type_to_mime_type($type));
         }
-        if (!is_resource($image) && !($image instanceof \GDImage)) {
+        if (!$image instanceof \GdImage && !is_resource($image)) {
             throw new GraphicLibraryException("Cannot open image \"{$src}\"");
         }
         $this->mapType($image, $type);
@@ -98,24 +95,24 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * Load image from binary string
-     * 
-     * @return \GDImage
      * @throws GraphicLibraryException
      */
-    public function loadFromString(string $content)
+    public function loadFromString(string $content): \GdImage
     {
-        $image = imagecreatefromstring($content);
-        if (!$image) {
+        $image = @imagecreatefromstring($content);
+        if (!$image instanceof \GdImage && !is_resource($image)) {
             throw new GraphicLibraryException("Cannot load the string as an image");
         }
         $info = getimagesizefromstring($content);
+        if (!$info) {
+            throw new GraphicLibraryException("Cannot get image size from string");
+        }
         $this->mapType($image, $info[2]);
         return $image;
     }
 
     /**
-     * @param \GDImage $image
+     * @param \GdImage $image
      */
     public function close($image): void
     {
@@ -124,7 +121,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
+     * @param \GdImage $image
      * @param int $type IMAGETYPE_XXX
      * @throws GraphicLibraryException
      */
@@ -150,15 +147,14 @@ class Gd2 implements GraphicLibraryInterface
                 throw new GraphicLibraryException('Trying to save unsupported type of image ' . image_type_to_mime_type($type));
         }
         if (!$result) {
-            throw new GraphicLibraryException("Can't write image with type '{$type}' to file '{$path}'");
+            throw new GraphicLibraryException("Cannot save image to \"{$path}\"");
         }
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage|resource $original
      */
-    public function clone($original)
+    public function clone($original): \GdImage
     {
         $width = imagesx($original);
         $height = imagesy($original);
@@ -166,7 +162,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
+     * @param \GdImage $image
      */
     public function getHeight($image): int
     {
@@ -174,7 +170,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
+     * @param \GdImage $image
      */
     public function getWidth($image): int
     {
@@ -182,10 +178,9 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage $image
      */
-    public function crop($image, int $x, int $y, int $width, int $height, bool $immutable = false)
+    public function crop($image, int $x, int $y, int $width, int $height, bool $immutable = false): \GdImage
     {
         $originalType = $this->getType($image);
         if (imageistruecolor($image)) {
@@ -227,19 +222,17 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage $image
      */
-    public function resize($image, int $width, int $height, bool $immutable = false)
+    public function resize($image, int $width, int $height, bool $immutable = false): \GdImage
     {
         return $this->cropAndResize($image, 0, 0, imagesx($image), imagesy($image), $width, $height, $immutable);
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage $image
      */
-    public function cropAndResize($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable = false)
+    public function cropAndResize($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable = false): \GdImage
     {
         if (imageistruecolor($image)) {
             return $this->cropAndResizeTrueColor($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
@@ -249,10 +242,9 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage $image
      */
-    private function cropAndResizeTrueColor($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
+    private function cropAndResizeTrueColor(\GdImage $image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable): \GdImage
     {
         $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
@@ -277,10 +269,9 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param \GDImage $image
-     * @return \GDImage
+     * @param \GdImage $image
      */
-    private function cropAndResizeIndexedColor($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
+    private function cropAndResizeIndexedColor(\GdImage $image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable): \GdImage
     {
         $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
