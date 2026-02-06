@@ -25,17 +25,13 @@ class Gd2 implements GraphicLibraryInterface
 
     private $configuration = [];
 
-    /** @var array|\SplObjectStorage */
+    /** @var \SplObjectStorage */
     private $typesMap;
 
     public function __construct(array $configuration = [])
     {
         $this->configuration = array_merge(self::DEFAULT_CONFIGURATION, $configuration);
-        if (PHP_VERSION_ID >= 80000) {
-            $this->typesMap = new \SplObjectStorage();
-        } else {
-            $this->typesMap = [];
-        }
+        $this->typesMap = new \SplObjectStorage();
     }
 
     public static function isInstalled(): bool
@@ -49,8 +45,7 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function mapType($image, int $type): void
     {
-        $key = is_object($image) ? $image : (string) $image;
-        $this->typesMap[$key] = $type;
+        $this->typesMap[$image] = $type;
     }
 
     /**
@@ -59,8 +54,7 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function getType($image): int
     {
-        $key = is_object($image) ? $image : (string) $image;
-        return $this->typesMap[$key];
+        return $this->typesMap[$image];
     }
 
     /**
@@ -68,8 +62,7 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function unmapType($image): void
     {
-        $key = is_object($image) ? $image : (string) $image;
-        unset($this->typesMap[$key]);
+        unset($this->typesMap[$image]);
     }
 
     /**
@@ -142,8 +135,10 @@ class Gd2 implements GraphicLibraryInterface
                 $result = imagejpeg($image, $path, $this->configuration['jpg_quality']);
                 break;
             case IMAGETYPE_PNG:
-                imageSaveAlpha($image, true);
-                $result = imagepng($image, $path, $type);
+                if ($this->getType($image) !== IMAGETYPE_JPEG) {
+                    imageSaveAlpha($image, true);
+                }
+                $result = imagepng($image, $path, $this->configuration['png_compression']);
                 break;
             case IMAGETYPE_GIF:
                 $result = imagegif($image, $path);
@@ -192,13 +187,16 @@ class Gd2 implements GraphicLibraryInterface
      */
     public function crop($image, int $x, int $y, int $width, int $height, bool $immutable = false)
     {
+        $originalType = $this->getType($image);
         if (imageistruecolor($image)) {
             $newImage = imagecreatetruecolor($width, $height);
             if (!$newImage) {
                 throw new GraphicLibraryException("Failed to create true color image");
             }
             imagealphablending($newImage, false);
-            imagesavealpha($newImage, true);
+            if ($originalType !== IMAGETYPE_JPEG) {
+                imagesavealpha($newImage, true);
+            }
         } else {
             $newImage = imagecreate($width, $height);
             if (!$newImage) {
@@ -224,6 +222,7 @@ class Gd2 implements GraphicLibraryInterface
         if (!$immutable) {
             $this->close($image);
         }
+        $this->mapType($newImage, $originalType);
         return $newImage;
     }
 
@@ -255,14 +254,17 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function cropAndResizeTrueColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
+        $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
         if (!$newImage) {
             throw new GraphicLibraryException("Failed to create true color image");
         }
-        $this->mapType($newImage, $this->getType($image));
+        $this->mapType($newImage, $originalType);
 
         imagealphablending($newImage, false);
-        imagesavealpha($newImage, true);
+        if ($originalType !== IMAGETYPE_JPEG) {
+            imagesavealpha($newImage, true);
+        }
 
         if (!imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height)) {
             throw new GraphicLibraryException("Failed to resample image");
