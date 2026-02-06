@@ -255,16 +255,19 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function cropAndResizeTrueColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
-        $imageType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
-        $this->mapType($newImage, $imageType);
-        if ($imageType != IMAGETYPE_JPEG) {
-            imagealphablending($newImage, false);
-            imagesavealpha($newImage, true);
-            $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
-            imagefilledrectangle($newImage, 0, 0, $toWidth, $toHeight, $transparent);
+        if (!$newImage) {
+            throw new GraphicLibraryException("Failed to create true color image");
         }
-        imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height);
+        $this->mapType($newImage, $this->getType($image));
+
+        imagealphablending($newImage, false);
+        imagesavealpha($newImage, true);
+
+        if (!imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height)) {
+            throw new GraphicLibraryException("Failed to resample image");
+        }
+
         if (!$immutable) {
             $this->close($image);
         }
