@@ -42,7 +42,17 @@ class DataProvider
     public static function clone()
     {
         return [
-            0 => [__DIR__ . '/../../resources/images/bee.gif', IMAGETYPE_GIF, 549, 619],
+            0 => [__DIR__ . '/../../resources/images/apple.jpg', IMAGETYPE_JPEG, 1200, 1200],
+            1 => [__DIR__ . '/../../resources/images/beach.webp', IMAGETYPE_WEBP, 730, 352],
+            2 => [__DIR__ . '/../../resources/images/bee.gif', IMAGETYPE_GIF, 549, 619],
+            3 => [__DIR__ . '/../../resources/images/butterfly_with_transparent_bg.gif', IMAGETYPE_GIF, 1280, 1201],
+            4 => [__DIR__ . '/../../resources/images/butterfly_with_transparent_bg.png', IMAGETYPE_PNG, 1280, 1201],
+            5 => [__DIR__ . '/../../resources/images/butterfly_with_transparent_bg.webp', IMAGETYPE_WEBP, 1280, 1201],
+            6 => [__DIR__ . '/../../resources/images/chrismas tree with transparent bg.png', IMAGETYPE_PNG, 1615, 1920],
+            7 => [__DIR__ . '/../../resources/images/house.webp', IMAGETYPE_WEBP, 1536, 1024],
+            8 => [__DIR__ . '/../../resources/images/pinapple-animated.gif', IMAGETYPE_GIF, 457, 480],
+            9 => [__DIR__ . '/../../resources/images/snowman-pixel.gif', IMAGETYPE_GIF, 700, 1300],
+            10 => [__DIR__ . '/../../resources/images/tree_with_white_background.jpg', IMAGETYPE_JPEG, 1280, 1280],
         ];
     }
 

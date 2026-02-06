@@ -163,32 +163,32 @@ class Gd2 implements GraphicLibraryInterface
      * @param \GDImage $image
      * @return \GDImage
      */
-    public function clone($image)
+    public function clone($original)
     {
-        // Copy image using memory
-        $imageType = $this->getType($image);
-        ob_start();
-        switch ($imageType) {
-            case IMAGETYPE_JPEG:
-                imagejpeg($image, null, 100);
-                break;
-            case IMAGETYPE_PNG:
-                imagesavealpha($image, true);
-                imagepng($image, null, 0);
-                break;
-            case IMAGETYPE_GIF:
-                imagegif($image);
-                break;
-            case IMAGETYPE_WEBP:
-                imagewebp($image, null, 100);
-                break;
-            default:
-                throw new GraphicLibraryException('Trying to clone unsupported type of image ' . image_type_to_mime_type($imageType));
+        $width = imagesx($original);
+        $height = imagesy($original);
+        if (imageistruecolor($original)) {
+            $copy = imagecreatetruecolor($width, $height);
+            imagealphablending($copy, false);
+            imagesavealpha($copy, true);
+        } else {
+            $copy = imagecreate($width, $height);
+            imagepalettecopy($copy, $original);
+            $transparentIndex = imagecolortransparent($original);
+            if ($transparentIndex >= 0) {
+                $rgba = imagecolorsforindex($original, $transparentIndex);
+                $newTransparentIndex = imagecolorresolve(
+                    $copy,
+                    $rgba['red'],
+                    $rgba['green'],
+                    $rgba['blue']
+                );
+                imagecolortransparent($copy, $newTransparentIndex);
+                imagefill($copy, 0, 0, $newTransparentIndex);
+            }
         }
-        $data = ob_get_clean();
-        $newImage = imagecreatefromstring($data);
-        $this->mapType($newImage, $imageType);
-        return $newImage;
+        imagecopy($copy, $original, 0, 0, 0, 0, $width, $height);
+        return $copy;
     }
 
     /**
