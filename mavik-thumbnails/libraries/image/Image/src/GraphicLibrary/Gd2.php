@@ -194,10 +194,16 @@ class Gd2 implements GraphicLibraryInterface
     {
         if (imageistruecolor($image)) {
             $newImage = imagecreatetruecolor($width, $height);
+            if (!$newImage) {
+                throw new GraphicLibraryException("Failed to create true color image");
+            }
             imagealphablending($newImage, false);
             imagesavealpha($newImage, true);
         } else {
             $newImage = imagecreate($width, $height);
+            if (!$newImage) {
+                throw new GraphicLibraryException("Failed to create palette image");
+            }
             imagepalettecopy($newImage, $image);
             $transparentIndex = imagecolortransparent($image);
             if ($transparentIndex >= 0) {
@@ -212,7 +218,9 @@ class Gd2 implements GraphicLibraryInterface
                 imagefill($newImage, 0, 0, $newTransparentIndex);
             }
         }
-        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
+        if (!imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height)) {
+            throw new GraphicLibraryException("Failed to copy image");
+        }
         if (!$immutable) {
             $this->close($image);
         }
