@@ -44,7 +44,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GdImage $image
+     * @param \GdImage $image
      * @param int $type IMAGETYPE_XXX
      */
     private function mapType($image, int $type): void
@@ -54,7 +54,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GdImage $image
+     * @param \GdImage $image
      * @return int IMAGETYPE_XXX
      */
     private function getType($image): int
@@ -64,7 +64,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GdImage $image
+     * @param \GdImage $image
      */
     private function unmapType($image): void
     {
@@ -73,7 +73,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @return resource|\GDImage
+     * @return \GDImage
      * @throws GraphicLibraryException
      */
     public function load(ImageFile $file)
@@ -107,7 +107,7 @@ class Gd2 implements GraphicLibraryInterface
     /**
      * Load image from binary string
      * 
-     * @return resource|\GDImage
+     * @return \GDImage
      * @throws GraphicLibraryException
      */
     public function loadFromString(string $content)
@@ -122,7 +122,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
+     * @param \GDImage $image
      */
     public function close($image): void
     {
@@ -131,7 +131,7 @@ class Gd2 implements GraphicLibraryInterface
     }
 
     /**
-     * @param resource|\GDImage $image
+     * @param \GDImage $image
      * @param int $type IMAGETYPE_XXX
      * @throws GraphicLibraryException
      */
