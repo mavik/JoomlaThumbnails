@@ -282,8 +282,12 @@ class Gd2 implements GraphicLibraryInterface
      */
     private function cropAndResizeIndexedColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
+        $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
-        $this->mapType($newImage, $this->getType($image));
+        if (!$newImage) {
+            throw new GraphicLibraryException("Failed to create true color image");
+        }
+        $this->mapType($newImage, $originalType);
 
         $transparentIndex = imagecolortransparent($image);
         if ($transparentIndex >= 0) {
@@ -293,10 +297,14 @@ class Gd2 implements GraphicLibraryInterface
             imagecolortransparent($newImage, $newTransparentIndex);
         }
 
-        imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height);
+        if (!imagecopyresampled($newImage, $image, 0, 0, $x, $y, $toWidth, $toHeight, $width, $height)) {
+            throw new GraphicLibraryException("Failed to resample image");
+        }
 
         $colorNumbers = imagecolorstotal($image);
-        imagetruecolortopalette($newImage, false, $colorNumbers);
+        if (!imagetruecolortopalette($newImage, false, $colorNumbers)) {
+            throw new GraphicLibraryException("Failed to convert image to palette");
+        }
 
         if ($transparentIndex >= 0) {
             $newTransparentIndex = imagecolorresolve($newImage, $transparentRgb['red'], $transparentRgb['green'], $transparentRgb['blue']);
