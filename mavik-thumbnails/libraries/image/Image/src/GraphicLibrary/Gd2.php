@@ -242,9 +242,9 @@ class Gd2 implements GraphicLibraryInterface
     public function cropAndResize($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable = false)
     {
         if (imageistruecolor($image)) {
-            return $this->cropAndResizeTrueColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
+            return $this->cropAndResizeTrueColor($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
         } else {
-            return $this->cropAndResizeIndexedColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
+            return $this->cropAndResizeIndexedColor($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
         }
     }
 
@@ -252,7 +252,7 @@ class Gd2 implements GraphicLibraryInterface
      * @param \GDImage $image
      * @return \GDImage
      */
-    private function cropAndResizeTrueColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
+    private function cropAndResizeTrueColor($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
         $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
@@ -280,7 +280,7 @@ class Gd2 implements GraphicLibraryInterface
      * @param \GDImage $image
      * @return \GDImage
      */
-    private function cropAndResizeIndexedColors($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
+    private function cropAndResizeIndexedColor($image, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, bool $immutable)
     {
         $originalType = $this->getType($image);
         $newImage = imagecreatetruecolor($toWidth, $toHeight);
