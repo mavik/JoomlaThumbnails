@@ -167,28 +167,7 @@ class Gd2 implements GraphicLibraryInterface
     {
         $width = imagesx($original);
         $height = imagesy($original);
-        if (imageistruecolor($original)) {
-            $copy = imagecreatetruecolor($width, $height);
-            imagealphablending($copy, false);
-            imagesavealpha($copy, true);
-        } else {
-            $copy = imagecreate($width, $height);
-            imagepalettecopy($copy, $original);
-            $transparentIndex = imagecolortransparent($original);
-            if ($transparentIndex >= 0) {
-                $rgba = imagecolorsforindex($original, $transparentIndex);
-                $newTransparentIndex = imagecolorresolve(
-                    $copy,
-                    $rgba['red'],
-                    $rgba['green'],
-                    $rgba['blue']
-                );
-                imagecolortransparent($copy, $newTransparentIndex);
-                imagefill($copy, 0, 0, $newTransparentIndex);
-            }
-        }
-        imagecopy($copy, $original, 0, 0, 0, 0, $width, $height);
-        return $copy;
+        return $this->crop($original, 0, 0, $width, $height, true);
     }
 
     /**
@@ -213,14 +192,31 @@ class Gd2 implements GraphicLibraryInterface
      */
     public function crop($image, int $x, int $y, int $width, int $height, bool $immutable = false)
     {
-        $result = imageistruecolor($image)
-            ? $this->cropTrueColor($image, $x, $y, $width, $height)
-            : $this->cropIndexedImage($image, $x, $y, $width, $height)
-        ;
-        if (empty($immutable)) {
+        if (imageistruecolor($image)) {
+            $newImage = imagecreatetruecolor($width, $height);
+            imagealphablending($newImage, false);
+            imagesavealpha($newImage, true);
+        } else {
+            $newImage = imagecreate($width, $height);
+            imagepalettecopy($newImage, $image);
+            $transparentIndex = imagecolortransparent($image);
+            if ($transparentIndex >= 0) {
+                $rgba = imagecolorsforindex($image, $transparentIndex);
+                $newTransparentIndex = imagecolorresolve(
+                    $newImage,
+                    $rgba['red'],
+                    $rgba['green'],
+                    $rgba['blue']
+                );
+                imagecolortransparent($newImage, $newTransparentIndex);
+                imagefill($newImage, 0, 0, $newTransparentIndex);
+            }
+        }
+        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
+        if (!$immutable) {
             $this->close($image);
         }
-        return $result;
+        return $newImage;
     }
 
     /**
@@ -243,36 +239,6 @@ class Gd2 implements GraphicLibraryInterface
         } else {
             return $this->cropAndResizeIndexedColors($image, $x, $y, $width, $height, $toWidth, $toHeight, $immutable);
         }
-    }
-    private function cropTrueColor(\GDImage $image, int $x, int $y, int $width, int $height): \GDImage
-    {
-        $newImage = imagecreatetruecolor($width, $height);
-        imagealphablending($newImage, false);
-        imagesavealpha($newImage, true);
-        $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
-        imagefill($newImage, 0, 0, $transparent);
-        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
-        return $newImage;
-    }
-
-    private function cropIndexedImage(\GDImage $image, int $x, int $y, int $width, int $height): \GDImage
-    {
-        $newImage = imagecreate($width, $height);
-        imagepalettecopy($newImage, $image);
-        $transparentIndex = imagecolortransparent($image);
-        if ($transparentIndex >= 0) {
-            $transparentRgb = imagecolorsforindex($image, $transparentIndex);
-            $newTransparentIndex = imagecolorresolve(
-                $newImage,
-                $transparentRgb['red'],
-                $transparentRgb['green'],
-                $transparentRgb['blue']
-            );
-            imagefill($newImage, 0, 0, $newTransparentIndex);
-            imagecolortransparent($newImage, $newTransparentIndex);
-        }
-        imagecopy($newImage, $image, 0, 0, $x, $y, $width, $height);
-        return $newImage;
     }
 
     /**
