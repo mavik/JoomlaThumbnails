@@ -70,7 +70,7 @@ class ImagickTest extends AbstractTest
 
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::clone
-     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::cloneProvider
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToClone
      */
     public function testClone(string $src, int $imgType): void
     {

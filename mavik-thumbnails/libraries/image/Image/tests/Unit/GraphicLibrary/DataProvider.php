@@ -39,7 +39,7 @@ class DataProvider
         ];
     }
 
-    public static function clone()
+    public static function imagesToClone()
     {
         return [
             0 => [__DIR__ . '/../../resources/images/apple.jpg', IMAGETYPE_JPEG, 1200, 1200],
