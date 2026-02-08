@@ -16,27 +16,29 @@ use Mavik\Image\GraphicLibrary\Imagick;
 use Mavik\Image\GraphicLibraryInterface;
 use Imagick as NativeImagick;
 
-/**
- * @runTestsInSeparateProcess
- * @preserveGlobalState disabled
- */
 class ImagickTest extends AbstractTest
 {
     public static function setUpBeforeClass(): void
     {
+        parent::setUpBeforeClass();
+    }
+
+    public function setUp(): void
+    {
         if (!extension_loaded('imagick')) {
             $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
-            $isExtensionLoaded = @dl($prefix . 'imagick.' . PHP_SHLIB_SUFFIX);
-            if (!$isExtensionLoaded) {
-                self::markTestSkipped('Extension imagick is not loaded');
+            if (!dl($prefix . 'imagick.' . PHP_SHLIB_SUFFIX)) {
+                $this->markTestSkipped('Extension imagick is not loaded');
             }
         }
-        parent::setUpBeforeClass();
+        parent::setUp();
     }
 
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::load
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToLoad
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testLoad(string $src, int $imgType): void
     {
@@ -49,6 +51,8 @@ class ImagickTest extends AbstractTest
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::save
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToSave
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSave(string $src, int $imgType): void
     {
@@ -62,6 +66,8 @@ class ImagickTest extends AbstractTest
      * @covers \Mavik\Image\GraphicLibrary\Imagick::getWidth
      * @covers \Mavik\Image\GraphicLibrary\Imagick::getHeight
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesSize
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testSize(string $src, int $imgType, int $width, int $height): void
     {
@@ -71,6 +77,8 @@ class ImagickTest extends AbstractTest
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::clone
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToClone
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testClone(string $src, int $imgType): void
     {
@@ -80,6 +88,8 @@ class ImagickTest extends AbstractTest
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::crop
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCrop
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testCrop(int $imgType, int $x, int $y, int $width, int $height, string $src, string $expectedFile): void
     {
@@ -92,6 +102,8 @@ class ImagickTest extends AbstractTest
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::resize
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToResize
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testResize(int $imgType, int $width, int $height, string $src, string $expectedFile): void
     {
@@ -104,6 +116,8 @@ class ImagickTest extends AbstractTest
     /**
      * @covers \Mavik\Image\GraphicLibrary\Imagick::cropAndResize
      * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCropAndResize
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testCropAndResize(int $imgType, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, string $src, string $expectedFile): void
     {

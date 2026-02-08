@@ -45,12 +45,20 @@ abstract class AbstractTest extends TestCase
         }
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testLoad(string $src, int $imgType): void
     {
         $resource = $this->instance->load($this->imageFile($src, $imgType));
         $this->verifyResource($resource);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSave(string $src, int $imgType): void
     {
         $savedFile = $this->tempFile(basename($src));
@@ -59,6 +67,10 @@ abstract class AbstractTest extends TestCase
         $this->assertLessThan(1, CompareImages::distance($savedFile, $src));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testSize(string $src, int $imgType, int $width, int $height): void
     {
         $resource = $this->instance->load($this->imageFile($src, $imgType));
@@ -66,6 +78,10 @@ abstract class AbstractTest extends TestCase
         $this->assertEquals($height, $this->instance->getHeight($resource));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testClone(string $src, int $imgType): void
     {
         $resource = $this->instance->load($this->imageFile($src, $imgType));
@@ -76,6 +92,10 @@ abstract class AbstractTest extends TestCase
         $this->assertLessThan(1, CompareImages::distance($src, $savedFile));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCrop(int $imgType, int $x, int $y, int $width, int $height, string $src, string $expectedFile): void
     {
         $savedFile = $this->tempFile(basename($src));
@@ -92,6 +112,10 @@ abstract class AbstractTest extends TestCase
         $this->assertLessThan(1, CompareImages::distance($expectedFile, $savedFile));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testResize(int $imgType, int $width, int $height, string $src, string $expectedFile): void
     {
         $savedFile = $this->tempFile(basename($src));
@@ -108,6 +132,10 @@ abstract class AbstractTest extends TestCase
         $this->assertLessThan(3, CompareImages::distance($expectedFile, $savedFile));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCropAndResize(int $imgType, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, string $src, string $expectedFile): void
     {
         $savedFile = $this->tempFile(basename($src));
@@ -124,6 +152,10 @@ abstract class AbstractTest extends TestCase
         $this->assertLessThan(3, CompareImages::distance($expectedFile, $savedFile));
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testImmutable(): void
     {
         $imagePath = __DIR__ . '/../../resources/images/apple.jpg';
@@ -150,6 +182,10 @@ abstract class AbstractTest extends TestCase
         $this->assertEquals($imageSize, $tempImageSize);
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testMutable(): void
     {
         $imagePath = __DIR__ . '/../../resources/images/apple.jpg';
