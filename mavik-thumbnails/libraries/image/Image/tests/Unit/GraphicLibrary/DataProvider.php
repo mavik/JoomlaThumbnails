@@ -11,7 +11,7 @@ namespace Mavik\Image\Tests\Unit\GraphicLibrary;
 
 class DataProvider
 {
-    public static function imagesToOpen()
+    public static function imagesToLoad()
     {
         return [
             0 => [__DIR__ . '/../../resources/images/apple.jpg', IMAGETYPE_JPEG],

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /* 
  *  PHP Library for Image processing and creating thumbnails
  *  
@@ -10,77 +12,77 @@
 
 namespace Mavik\Image\Tests\Unit\GraphicLibrary;
 
-use Mavik\Image\Tests\Unit\GraphicLibrary\AbstractTest;
 use Mavik\Image\GraphicLibrary\Gd2;
+use Mavik\Image\GraphicLibraryInterface;
+use GdImage;
 
 class Gd2Test extends AbstractTest
 {
-        
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::open
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToOpen
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::load
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToLoad
      */
-    public function testOpen(string $src, int $imgType)
+    public function testLoad(string $src, int $imgType): void
     {
-        parent::testOpen($src, $imgType);
+        parent::testLoad($src, $imgType);
     }
-    
+
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::save
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToSave
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::save
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToSave
      */
-    public function testSave(string $src, int $imgType)
+    public function testSave(string $src, int $imgType): void
     {
         parent::testSave($src, $imgType);
     }
 
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::getWidth
-     * @covers Mavik\Image\GraphicLibrary\Gd2::getHeight
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesSize
-     */    
-    public function testSize(string $src, int $imgType, int $width, int $height)
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::getWidth
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::getHeight
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesSize
+     */
+    public function testSize(string $src, int $imgType, int $width, int $height): void
     {
         parent::testSize($src, $imgType, $width, $height);
     }
-    
+
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::clone
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::clone
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::clone
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::clone
      */
-    public function testClone(string $src, int $imgType)
+    public function testClone(string $src, int $imgType): void
     {
-        parent::testClone($src, $imgType);        
+        parent::testClone($src, $imgType);
     }
-    
+
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::crop
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCrop
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::crop
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCrop
      */
-    public function testCrop(int $imgType, int $x, int $y, int $width, int $height, string $src, string $expectedFile)
+    public function testCrop(int $imgType, int $x, int $y, int $width, int $height, string $src, string $expectedFile): void
     {
         parent::testCrop($imgType, $x, $y, $width, $height, $src, $expectedFile);
     }
-    
+
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::resize
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToResize
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::resize
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToResize
      */
-    public function testResize(int $imgType, int $width, int $height, string $src, string $expectedFile)
+    public function testResize(int $imgType, int $width, int $height, string $src, string $expectedFile): void
     {
         parent::testResize($imgType, $width, $height, $src, $expectedFile);
     }
 
     /**
-     * @covers Mavik\Image\GraphicLibrary\Gd2::cropAndResize
-     * @dataProvider Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCropAndResize
+     * @covers \Mavik\Image\GraphicLibrary\Gd2::cropAndResize
+     * @dataProvider \Mavik\Image\Tests\Unit\GraphicLibrary\DataProvider::imagesToCropAndResize
      */
-    public function testCropAndResize(int $imgType, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, string $src, string $expectedFile)
+    public function testCropAndResize(int $imgType, int $x, int $y, int $width, int $height, int $toWidth, int $toHeight, string $src, string $expectedFile): void
     {
         parent::testCropAndResize($imgType, $x, $y, $width, $height, $toWidth, $toHeight, $src, $expectedFile);
     }
 
-    protected function newInstance(): \Mavik\Image\GraphicLibraryInterface
+    protected function newInstance(): GraphicLibraryInterface
     {
         return new Gd2();
     }
@@ -88,10 +90,9 @@ class Gd2Test extends AbstractTest
     protected function verifyResource($resource): void
     {
         if (is_object($resource)) {
-            $this->assertInstanceOf(\GdImage::class, $resource);
+            $this->assertInstanceOf(GdImage::class, $resource);
             return;
         }
         $this->assertIsResource($resource);
     }
-
 }
