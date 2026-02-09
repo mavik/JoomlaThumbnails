@@ -13,7 +13,8 @@
             "Mavik\\Image\\": "mavik-thumbnails/libraries/image/Image/src",
             "Mavik\\Image\\Tests\\": "mavik-thumbnails/libraries/image/Image/tests",
             "Mavik\\Thumbnails\\": "mavik-thumbnails/libraries/thumbnails/Thumbnails/src",
-            "Mavik\\Thumbnails\\Tests\\": "mavik-thumbnails/libraries/thumbnails/Thumbnails/tests"
+            "Mavik\\Thumbnails\\Tests\\": "mavik-thumbnails/libraries/thumbnails/Thumbnails/tests",
+            "Masterminds\\": "mavik-thumbnails/libraries/masterminds/html5-php/src"
         }
     },
     "authors": [

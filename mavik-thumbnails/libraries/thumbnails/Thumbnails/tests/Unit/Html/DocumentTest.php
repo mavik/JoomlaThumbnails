@@ -10,33 +10,38 @@
 
 namespace Mavik\Thumbnails\Html;
 
+use Mavik\Image\ImageFactory;
+use Mavik\Image\ImageImmutable;
 use PHPUnit\Framework\TestCase;
 
 class DocumentTest extends TestCase
-{    
+{
     /**
      * @covers Document::findImages
      * @dataProvider dataProvider
      */
     public function testFindImages(string $html, array $images)
     {
-        $document = Document::createFragment($html);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+
+        $document = Document::createFragment($html, $imageFactory);
         $dom = new \DOMDocument();
         foreach ($document->findImages() as $index => $image) {
             /** @var Image $image */
             $imgTag = $dom->createElement('img');
             $imgTag->setAttribute('src', $images[$index]['src']);
-            $imgTag->setAttribute('width', $images[$index]['width']);
-            $imgTag->setAttribute('height', $images[$index]['height']);
-            $imgTag->setAttribute('style', $images[$index]['style']);
-            $testImage = new Image($imgTag);       
+            $imgTag->setAttribute('width', (string) $images[$index]['width']);
+            $imgTag->setAttribute('height', (string) $images[$index]['height']);
+            $imgTag->setAttribute('style', (string) $images[$index]['style']);
+            $testImage = new Image($imgTag, $imageFactory);
             $this->assertEquals($testImage->getAttribute('src'), $image->getAttribute('src'));
             $this->assertEquals($testImage->getAttribute('width'), $image->getAttribute('width'));
             $this->assertEquals($testImage->getAttribute('height'), $image->getAttribute('height'));
             $this->assertEquals($testImage->getAttribute('style'), $image->getAttribute('style'));
         }
     }
-    
+
     public function dataProvider(): array
     {
         return [
@@ -54,27 +59,31 @@ class DocumentTest extends TestCase
                     [
                         'src' => 'test0',
                         'width' => '10',
-                        'height'=> '20',
+                        'height' => '20',
                         'style' => null,
-                    ], [
+                    ],
+                    [
                         'src' => 'test1',
                         'width' => '20px',
-                        'height'=> '30 px',
+                        'height' => '30 px',
                         'style' => null,
-                    ], [
+                    ],
+                    [
                         'src' => 'test2',
                         'width' => '20px',
-                        'height'=> '30 px',
+                        'height' => '30 px',
                         'style' => 'width: 40px; height: 50 px',
-                    ], [
+                    ],
+                    [
                         'src' => 'test3',
                         'width' => '30px',
-                        'height'=> null,
+                        'height' => null,
                         'style' => 'height: 50 px',
-                    ], [
+                    ],
+                    [
                         'src' => 'test4',
                         'width' => null,
-                        'height'=> '30px',
+                        'height' => '30px',
                         'style' => 'width: 50px',
                     ],
                 ],
