@@ -10,9 +10,8 @@
 
 namespace Mavik\Thumbnails\Html;
 
-/**
- * @coversDefaultClass Image
- */
+use Mavik\Image\ImageFactory;
+use Mavik\Image\ImageImmutable;
 use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
@@ -24,7 +23,9 @@ class ImageTest extends TestCase
      */
     public function testWidth(\DOMElement $dom, array $params)
     {
-        $image = new Image($dom);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $image = new Image($dom, $imageFactory);
         $this->assertEquals($params['width'], $image->getWidth());
         $this->assertEquals($params['widthUnit'], $image->getWidthUnit());
     }
@@ -36,7 +37,9 @@ class ImageTest extends TestCase
      */
     public function testGetHeight(\DOMElement $dom, array $params)
     {
-        $image = new Image($dom);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $image = new Image($dom, $imageFactory);
         $this->assertEquals($params['height'], $image->getHeight());
         $this->assertEquals($params['heightUnit'], $image->getHeightUnit());
     }
@@ -47,7 +50,9 @@ class ImageTest extends TestCase
      */
     public function testIsSizeInPixels(\DOMElement $dom, array $params)
     {
-        $image = new Image($dom);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $image = new Image($dom, $imageFactory);
         $this->assertEquals($params['isSizeInPixels'], $image->isSizeInPixels());
     }
     
@@ -57,7 +62,9 @@ class ImageTest extends TestCase
      */
     public function testIsWidthInStyle(\DOMElement $dom, array $params)
     {
-        $image = new Image($dom);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $image = new Image($dom, $imageFactory);
         $this->assertEquals($params['isWidthInStyle'], $image->isWidthInStyle());
     }
 
@@ -67,7 +74,9 @@ class ImageTest extends TestCase
      */
     public function testIsHeightInStyle(\DOMElement $dom, array $params)
     {
-        $image = new Image($dom);
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $image = new Image($dom, $imageFactory);
         $this->assertEquals($params['isHeightInStyle'], $image->isHeightInStyle());
     }
     

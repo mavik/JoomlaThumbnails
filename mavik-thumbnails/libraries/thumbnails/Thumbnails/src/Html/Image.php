@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Mavik\Thumbnails\Html;
 
 use Mavik\Image\ImageFactory;
+use Mavik\Image\ImageImmutable;
+use Mavik\Image\ImageWithThumbnails;
 
 class Image
 {
@@ -27,10 +29,10 @@ class Image
 
     /** @var ImageFactory */
     protected $imageFactory;
-    
+
     /** @var float */
     private $width;
-    
+
     /** @var string */
     private $widthUnit;
 
@@ -42,13 +44,13 @@ class Image
 
     /** @var bool */
     private $isSizeInitialized = false;
-    
+
     /** @var bool */
     private $isWidthInStyle = false;
 
     /** @var bool */
     private $isHeightInStyle = false;
-    
+
     /** @var bool */
     private $isSizeInPixels = false;
 
@@ -59,10 +61,10 @@ class Image
         }
         $this->domElement = $domElement;
         $this->imageFactory = $imageFactory;
-        $this->originalSrc = $domElement->getAttribute('src');        
+        $this->originalSrc = $domElement->getAttribute('src');
         $this->image = $imageFactory->createImmutable($this->originalSrc);
     }
-    
+
     public function getSrc(): string
     {
         return $this->domElement->getAttribute('src');
@@ -78,13 +80,25 @@ class Image
         $this->initSize();
         return $this->width;
     }
-    
+
+    public function getWidthUnit(): ?string
+    {
+        $this->initSize();
+        return $this->widthUnit;
+    }
+
     public function getHeight(): ?float
     {
         $this->initSize();
         return $this->height;
     }
-    
+
+    public function getHeightUnit(): ?string
+    {
+        $this->initSize();
+        return $this->heightUnit;
+    }
+
     public function isSizeInPixels(): bool
     {
         $this->initSize();
@@ -98,7 +112,7 @@ class Image
     {
         return $this->image->getWidth();
     }
-    
+
     /**
      * Real height of the image in pixels
      */
@@ -111,7 +125,7 @@ class Image
     {
         return $this->domElement->getAttribute($name);
     }
-    
+
     public function hasAttribute(string $name): bool
     {
         return $this->domElement->hasAttribute($name);
@@ -126,8 +140,8 @@ class Image
     {
         $this->image = $this->imageFactory->convertImageToImageWithThumbnails(
             $this->image,
-            (int)$this->getWidth(),
-            (int)$this->getHeight(),
+            (int) $this->getWidth(),
+            (int) $this->getHeight(),
             $resizeType,
             $thumbnailScales,
         );
@@ -150,7 +164,7 @@ class Image
             $style = preg_replace('/(?<!\-)\bwidth\s*:\s*\d+\s*px/', $widthStyle, $style);
             $this->domElement->setAttribute('style', $style);
         } else {
-            $this->domElement->setAttribute('width', (string)$width);
+            $this->domElement->setAttribute('width', (string) $width);
         }
 
         if ($this->isHeightInStyle()) {
@@ -159,7 +173,7 @@ class Image
             $style = preg_replace('/(?<!\-)\bheight\s*:\s*\d+\s*px/', $heightStyle, $style);
             $this->domElement->setAttribute('style', $style);
         } else {
-            $this->domElement->setAttribute('height', (string)$height);
+            $this->domElement->setAttribute('height', (string) $height);
         }
 
         $this->isSizeInitialized = false;
@@ -177,14 +191,14 @@ class Image
         }
         return $srcset;
     }
-    
-    private function isWidthInStyle(): bool
+
+    public function isWidthInStyle(): bool
     {
         $this->initSize();
         return $this->isWidthInStyle;
     }
-    
-    private function isHeightInStyle(): bool
+
+    public function isHeightInStyle(): bool
     {
         $this->initSize();
         return $this->isHeightInStyle;
@@ -201,16 +215,16 @@ class Image
     }
 
     private function initSize(): void
-    { 
+    {
         if ($this->isSizeInitialized) {
             return;
         }
 
         $this->isSizeInPixels = true;
-        
-        list($this->width, $this->widthUnit) = $this->numberValueFromAttribute('width');        
+
+        list($this->width, $this->widthUnit) = $this->numberValueFromAttribute('width');
         list($this->height, $this->heightUnit) = $this->numberValueFromAttribute('height');
-        
+
         if ($this->domElement->hasAttribute('style')) {
             $style = $this->domElement->getAttribute('style');
             list($widthInStyle, $widthUnitInStyle) = $this->numberValueFromStyle('width', $style);
@@ -226,7 +240,7 @@ class Image
                 $this->heightUnit = $heightUnitInStyle;
             }
         }
-        
+
         $this->isSizeInPixels =
             (!isset($this->width) || $this->widthUnit == 'px')
             && (!isset($this->height) || $this->heightUnit == 'px')
@@ -234,7 +248,7 @@ class Image
 
         $this->isSizeInitialized = true;
     }
-    
+
     /**
      * @return array [?float <value>, ?string <unit>]
      */
@@ -246,7 +260,7 @@ class Image
         $attribute = $this->getAttribute($name);
         $numberReg = '\d+|\d*\.\d+';
         if (preg_match("/($numberReg)\s*(.*)/i", $attribute, $matches)) {
-            $value = (float)$matches[1];
+            $value = (float) $matches[1];
             $unit = strtolower(trim($matches[2])) ?: 'px';
         } else {
             $value = null;
@@ -257,7 +271,7 @@ class Image
             $unit,
         ];
     }
-    
+
     /**
      * @return array [?float <value>, ?string <unit>]
      */
@@ -265,12 +279,12 @@ class Image
     {
         $numberReg = '\d+|\d*\.\d+';
         if (preg_match("/\b{$property}\s*:\s*($numberReg)\s*([a-zA-Z\%]+)/si", $style, $matches)) {
-            $value = (float)$matches[1];
-            $unit = strtolower(trim($matches[2]));            
+            $value = (float) $matches[1];
+            $unit = strtolower(trim($matches[2]));
         } else {
             $value = null;
             $unit = null;
-        }        
+        }
         return [
             $value,
             $unit,
