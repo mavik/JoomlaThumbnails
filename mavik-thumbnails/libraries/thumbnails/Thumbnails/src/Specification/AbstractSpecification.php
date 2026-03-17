@@ -11,21 +11,21 @@ declare(strict_types=1);
  */
 namespace Mavik\Thumbnails\Specification;
 
-abstract class Specification
+abstract class AbstractSpecification
 {
     public abstract function isSatisfiedBy($candidate): bool;
-    
-    public function and(Specification $specification): Specification
+
+    public function and(AbstractSpecification $specification): AbstractSpecification
     {
         return new AndSpecification($this, $specification);
     }
 
-    public function or(Specification $specification): Specification
+    public function or(AbstractSpecification $specification): AbstractSpecification
     {
         return new OrSpecification($this, $specification);
     }
 
-    public function not(): Specification
+    public function not(): AbstractSpecification
     {
         return new NotSpecification($this);
     }

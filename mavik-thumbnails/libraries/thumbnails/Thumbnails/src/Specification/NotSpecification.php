@@ -11,11 +11,11 @@ declare(strict_types=1);
  */
 namespace Mavik\Thumbnails\Specification;
 
-class NotSpecification extends Specification
+class NotSpecification extends AbstractSpecification
 {
     private $specification;
 
-    public function __construct(Specification $specification)
+    public function __construct(AbstractSpecification $specification)
     {
         $this->specification = $specification;
     }

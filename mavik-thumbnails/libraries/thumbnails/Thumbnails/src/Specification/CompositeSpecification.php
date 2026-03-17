@@ -12,11 +12,11 @@ declare(strict_types=1);
  */
 namespace Mavik\Thumbnails\Specification;
 
-abstract class CompositeSpecification extends Specification
+abstract class CompositeSpecification extends AbstractSpecification
 {
-    protected Specification $innerSpec;
+    protected AbstractSpecification $innerSpec;
 
-    public function __construct(Specification $spec)
+    public function __construct(AbstractSpecification $spec)
     {
         $this->innerSpec = $spec;
     }

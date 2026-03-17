@@ -11,12 +11,12 @@ declare(strict_types=1);
  */
 namespace Mavik\Thumbnails\Specification;
 
-class OrSpecification extends Specification
+class OrSpecification extends AbstractSpecification
 {
     private $specification1;
     private $specification2;
 
-    public function __construct(Specification $specification1, Specification $specification2)
+    public function __construct(AbstractSpecification $specification1, AbstractSpecification $specification2)
     {
         $this->specification1 = $specification1;
         $this->specification2 = $specification2;
@@ -24,7 +24,7 @@ class OrSpecification extends Specification
 
     public function isSatisfiedBy($candidate): bool
     {
-        return 
+        return
             $this->specification1->isSatisfiedBy($candidate)
             || $this->specification2->isSatisfiedBy($candidate)
         ;
