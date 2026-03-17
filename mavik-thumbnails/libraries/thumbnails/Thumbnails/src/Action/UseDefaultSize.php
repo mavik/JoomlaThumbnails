@@ -15,6 +15,8 @@ namespace Mavik\Thumbnails\Action;
 use Mavik\Thumbnails\Html\Image;
 use Mavik\Thumbnails\Configuration;
 use Mavik\Thumbnails\JsAndCss;
+use Mavik\Thumbnails\Specification\AbstractSpecification;
+use Mavik\Thumbnails\Specification\Image\UseDefaultSize as UseDefaultSizeSpecification;
 
 class UseDefaultSize implements ActionInterface
 {
@@ -31,11 +33,16 @@ class UseDefaultSize implements ActionInterface
     /**
      * Change $image and add JS and CSS to $jsAndCss.
      */
-    public function __invoke(Image $image, JsAndCss $jsAndCss): void
+    public function execute(Image $image, JsAndCss $jsAndCss): void
     {
         $image->setSize(
             $this->configuration->base()->defaultWidth(),
             $this->configuration->base()->defaultHeight()
         );
+    }
+
+    public function specification(Configuration $configuration): AbstractSpecification
+    {
+        return new UseDefaultSizeSpecification($configuration);
     }
 }
