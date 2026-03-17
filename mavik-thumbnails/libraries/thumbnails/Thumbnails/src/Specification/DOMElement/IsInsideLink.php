@@ -9,15 +9,15 @@ declare(strict_types=1);
  *  @copyright 2024 Vitalii Marenkov
  *  @license GNU General Public License version 2 or later; see LICENSE
  */
-namespace Mavik\Thumbnails\Specification\Image;
+namespace Mavik\Thumbnails\Specification\DOMElement;
 
-use Mavik\Thumbnails\Html\Image as HtmlImage;
+use Mavik\Thumbnails\Specification\DOMElement\AbstractDOMElementSpecification;
 
-class IsInsideLink extends Image
+class IsInsideLink extends AbstractDOMElementSpecification
 {
-    protected function isSatisfiedByImage(HtmlImage $image): bool
+    protected function isSatisfiedByDOMElement(\DOMElement $element): bool
     {
-        $currentNode = $image->getParentNode();
+        $currentNode = $element->parentNode;
         if (empty($currentNode)) {
             return false;
         }
