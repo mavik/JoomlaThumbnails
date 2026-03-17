@@ -14,6 +14,8 @@ namespace Mavik\Thumbnails\Specification;
 
 use PHPUnit\Framework\TestCase;
 use Mavik\Thumbnails\Configuration;
+use Mavik\Thumbnails\Specification\Image\HasSuitedClass;
+use Mavik\Thumbnails\Html\Image;
 
 class HasSuitedClassTest extends TestCase
 {
@@ -23,15 +25,16 @@ class HasSuitedClassTest extends TestCase
      */
     public function test(string $imgClass, array $include, array $exclude, bool $result): void
     {
-        $dom = new \DOMDocument();
-        $imgTag = $dom->createElement('img');
-        $imgTag->setAttribute('class', $imgClass);
         $configuration = new Configuration(
             new Configuration\Server('', '', ''),
             new Configuration\Base('', [1], $include, $exclude)
         );
         $hasSuitedClass = new HasSuitedClass($configuration);
-        $this->assertEquals($result, $hasSuitedClass($imgTag));
+        
+        $image = $this->createStub(Image::class);
+        $image->method('getAttribute')->willReturn($imgClass);
+
+        $this->assertEquals($result, $hasSuitedClass->isSatisfiedBy($image));
     }
 
     public function dataProvider(): array

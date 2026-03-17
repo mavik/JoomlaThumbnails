@@ -10,20 +10,20 @@ declare(strict_types=1);
  *  @license GNU General Public License version 2 or later; see LICENSE
  */
 
- namespace Mavik\Thumbnails\Specification\Image;
+namespace Mavik\Thumbnails\Specification\Image;
 
-use Mavik\Thumbnails\Specification\Specification;
-use Mavik\Thumbnails\Html\Image as HtmlImage;
+use Mavik\Thumbnails\Specification\AbstractSpecification;
+use Mavik\Thumbnails\Html\Image;
 
-abstract class Image extends Specification
+abstract class AbstractImageSpecification extends AbstractSpecification
 {
     public function isSatisfiedBy($candidate): bool
     {
-        if ($candidate instanceof HtmlImage) {
+        if ($candidate instanceof Image) {
             return $this->isSatisfiedByImage($candidate);
         }
-        throw new \InvalidArgumentException('Expected instance of ' . HtmlImage::class);
+        throw new \InvalidArgumentException('Expected instance of ' . Image::class);
     }
-    
-    abstract protected function isSatisfiedByImage(HtmlImage $image): bool;
+
+    abstract protected function isSatisfiedByImage(Image $image): bool;
 }

@@ -10,12 +10,12 @@ declare(strict_types=1);
  *  @license GNU General Public License version 2 or later; see LICENSE
  */
 
- namespace Mavik\Thumbnails\Specification\Image;
+namespace Mavik\Thumbnails\Specification\Image;
 
 use Mavik\Thumbnails\Configuration;
-use Mavik\Thumbnails\Html\Image as HtmlImage;
+use Mavik\Thumbnails\Html\Image;
 
-class HasSuitedClass extends Image
+class HasSuitedClass extends AbstractImageSpecification
 {
     private Configuration $configuration;
 
@@ -24,7 +24,7 @@ class HasSuitedClass extends Image
         $this->configuration = $configuration;
     }
 
-    protected function isSatisfiedByImage (HtmlImage $image): bool
+    protected function isSatisfiedByImage(Image $image): bool
     {
         $classAtr = $image->getAttribute('class');
         preg_match_all('/(\w+)/', $classAtr, $matches, PREG_PATTERN_ORDER);
