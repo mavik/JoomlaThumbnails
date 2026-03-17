@@ -16,16 +16,18 @@ use Mavik\Image\Configuration as ImageFactoryConfiguration;
 use Mavik\Thumbnails\Html\Document;
 use Mavik\Thumbnails\Html\Image;
 use Mavik\Thumbnails\JsAndCss;
-use Mavik\Thumbnails\Specification\Image\ReplaceWithThumbnail as ReplaceWithThumbnailSpecification;
-use Mavik\Thumbnails\Specification\Image\UseDefaultSize as UseDefaultSizeSpecification;
+use Mavik\Thumbnails\Action;
 
 class Thumbnails
 {
+    private const ACTIONS = [
+        Action\UseDefaultSize::class,
+        Action\ReplaceToThumbnail::class,
+        Action\AddPopUp::class,
+    ];
+
     /** @var ImageFactory */
     private $imageFactory;
-
-    /** @var \SplObjectStorage */
-    private $actions;
 
     public function __construct(Configuration $configuration)
     {
@@ -37,33 +39,6 @@ class Thumbnails
             $serverConfiguration->graphicLibraryPriority()
         );
         $this->imageFactory = new ImageFactory($imageFactoryConfiguration);
-        $this->actions = new \SplObjectStorage();
-        $this->addActionDefaultSize($configuration);
-        $this->addActionPopUp($configuration);
-        $this->addActionReplaceToThumbnail($configuration);
-    }
-
-    private function addActionDefaultSize(Configuration $configuration): void
-    {
-        $action = new Action\UseDefaultSize($configuration);
-        $this->actions[$action] = new UseDefaultSizeSpecification($configuration);
-    }
-
-    private function addActionReplaceToThumbnail(Configuration $configuration): void
-    {
-        $action = new Action\ReplaceToThumbnail($configuration);
-        $this->actions[$action] = new ReplaceWithThumbnailSpecification($configuration);
-    }
-
-    private function addActionPopUp(Configuration $configuration): void
-    {
-        $popUp = $configuration->base()->popUp();
-        if ($popUp === null) {
-            return;
-        }
-        $actionClass = '\\Mavik\\Thumbnails\\Action\\PopUp\\' . $configuration->base()->popUp();
-        $action = new $actionClass();
-        $this->actions[$action] = new Specification\Image\AddPopUp($configuration);
     }
 
     /**
@@ -83,10 +58,10 @@ class Thumbnails
 
     private function doActions(Image $image, JsAndCss $jsAndCss): void
     {
-        foreach ($this->actions as $action) {
-            $specification = $this->actions->getInfo();
-            if ($specification->isSatisfiedBy($image)) {
-                $action($image, $jsAndCss);
+        foreach (self::ACTIONS as $actionClass) {
+            $action = new $actionClass();
+            if ($action->specification()->isSatisfiedBy($image)) {
+                $action->execute($image, $jsAndCss);
             }
         }
     }

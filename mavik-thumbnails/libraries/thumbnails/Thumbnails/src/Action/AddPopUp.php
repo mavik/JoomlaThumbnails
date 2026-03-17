@@ -15,6 +15,9 @@ namespace Mavik\Thumbnails\Action;
 use Mavik\Image\Image;
 use Mavik\Thumbnails\Html\Image as ImageTag;
 use Mavik\Thumbnails\JsAndCss;
+use Mavik\Thumbnails\Configuration;
+use Mavik\Thumbnails\Specification\AbstractSpecification;
+use Mavik\Thumbnails\Specification\Image\AddPopUp as AddPopUpSpecification;
 
 class AddPopUp implements ActionInterface
 {
@@ -28,8 +31,13 @@ class AddPopUp implements ActionInterface
     /**
      * Change $imageTag and add JS and CSS to $jsAndCss.
      */
-    public function __invoke(ImageTag $imageTag, JsAndCss $jsAndCss, Image $image): void
+    public function execute(ImageTag $imageTag, JsAndCss $jsAndCss): void
     {
-        $this->library->__invoke($imageTag, $jsAndCss, $image);
+        $this->library->execute($imageTag, $jsAndCss);
+    }
+
+    public function specification(Configuration $configuration): AbstractSpecification
+    {
+        return new AddPopUpSpecification($configuration);
     }
 }

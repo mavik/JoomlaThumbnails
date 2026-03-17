@@ -15,9 +15,11 @@ namespace Mavik\Thumbnails\Action;
 use Mavik\Thumbnails\Configuration;
 use Mavik\Thumbnails\Html\Image;
 use Mavik\Thumbnails\JsAndCss;
+use Mavik\Thumbnails\Specification\AbstractSpecification;
+use Mavik\Thumbnails\Specification\Image\ReplaceWithThumbnail as ReplaceWithThumbnailSpecification;
 
 class ReplaceToThumbnail implements ActionInterface
-{    
+{
     /** @var Configuration */
     private $configuration;
 
@@ -26,11 +28,16 @@ class ReplaceToThumbnail implements ActionInterface
         $this->configuration = $configuration;
     }
 
-    public function __invoke(Image $image, JsAndCss $jsAndCss): void
-    {  
+    public function execute(Image $image, JsAndCss $jsAndCss): void
+    {
         $image->useThumbnail(
             $this->configuration->base()->resizeType(),
             $this->configuration->base()->scales()
         );
+    }
+
+    public function specification(Configuration $configuration): AbstractSpecification
+    {
+        return new ReplaceWithThumbnailSpecification($configuration);
     }
 }

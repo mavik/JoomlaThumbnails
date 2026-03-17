@@ -14,11 +14,15 @@ namespace Mavik\Thumbnails\Action;
 
 use Mavik\Thumbnails\Html\Image as Image;
 use Mavik\Thumbnails\JsAndCss;
+use Mavik\Thumbnails\Configuration;
+use Mavik\Thumbnails\Specification\AbstractSpecification;
 
 interface ActionInterface
 {
     /**
      * Change $image and add JS and CSS to $jsAndCss.
      */
-    public function __invoke(Image $image, JsAndCss $jsAndCss): void;
+    public function execute(Image $image, JsAndCss $jsAndCss): void;
+
+    public function specification(Configuration $configuration): AbstractSpecification;
 }
