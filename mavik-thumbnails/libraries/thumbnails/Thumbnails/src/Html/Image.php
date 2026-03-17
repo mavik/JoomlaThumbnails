@@ -14,7 +14,6 @@ namespace Mavik\Thumbnails\Html;
 
 use Mavik\Image\ImageFactory;
 use Mavik\Image\ImageImmutable;
-use Mavik\Image\ImageWithThumbnails;
 
 class Image
 {
