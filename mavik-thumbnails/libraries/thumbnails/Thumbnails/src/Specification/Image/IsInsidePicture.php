@@ -11,16 +11,13 @@ declare(strict_types=1);
  */
 namespace Mavik\Thumbnails\Specification\Image;
 
-use Mavik\Thumbnails\Html\Image as HtmlImage;
+use Mavik\Thumbnails\Html\Image;
 
 class IsInsidePicture extends AbstractImageSpecification
 {
-    protected function isSatisfiedByImage(HtmlImage $image): bool
+    protected function isSatisfiedByImage(Image $image): bool
     {
-        $parentNode = $image->getParentNode();
-        return
-            $parentNode instanceof \DOMElement
-            && $parentNode->tagName === 'picture'
-        ;
+        $parentElement = $image->getParentElement();
+        return $parentElement?->tagName === 'picture';
     }
 }

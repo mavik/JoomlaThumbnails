@@ -135,9 +135,9 @@ class Image
         return $this->domElement;
     }
 
-    public function getParentNode(): \DOMNode
+    public function getParentElement(): ?\DOMElement
     {
-        return $this->domElement->parentNode;
+        return $this->domElement->parentElement;
     }
 
     public function useThumbnail(string $resizeType, array $thumbnailScales): bool
