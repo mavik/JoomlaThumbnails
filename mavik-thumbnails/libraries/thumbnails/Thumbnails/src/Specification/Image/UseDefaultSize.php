@@ -14,7 +14,7 @@ namespace Mavik\Thumbnails\Specification\Image;
 use Mavik\Thumbnails\Html\Image as HtmlImage;
 use Mavik\Thumbnails\Configuration;
 
-class UseDefaultSize extends Image
+class UseDefaultSize extends AbstractImageSpecification
 {
     private Configuration $configuration;
 
