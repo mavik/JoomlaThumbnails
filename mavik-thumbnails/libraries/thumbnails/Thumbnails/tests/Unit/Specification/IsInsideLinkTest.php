@@ -13,7 +13,8 @@ declare(strict_types=1);
 namespace Mavik\Thumbnails\Specification;
 
 use PHPUnit\Framework\TestCase;
-use Mavik\Thumbnails\Specification\DOMElement\IsInsideLink;
+use Mavik\Thumbnails\Specification\Image\IsInsideLink;
+use Mavik\Thumbnails\Html\Image;
 
 class IsInsideLinkTest extends TestCase
 {
@@ -31,8 +32,11 @@ class IsInsideLinkTest extends TestCase
         $imgTag = $dom->createElement('img');
         $pTag->appendChild($imgTag);
 
+        $image = $this->createStub(Image::class);
+        $image->method('getDOMElement')->willReturn($imgTag);
+
         $isInsideLink = new IsInsideLink();
-        $this->assertTrue($isInsideLink->isSatisfiedBy($imgTag));
+        $this->assertTrue($isInsideLink->isSatisfiedBy($image));
     }
 
     public function testFalse()
@@ -49,7 +53,10 @@ class IsInsideLinkTest extends TestCase
         $imgTag = $dom->createElement('img');
         $divWithHref->appendChild($imgTag);
 
+        $image = $this->createStub(Image::class);
+        $image->method('getDOMElement')->willReturn($imgTag);
+
         $isInsideLink = new IsInsideLink();
-        $this->assertFalse($isInsideLink->isSatisfiedBy($imgTag));
+        $this->assertFalse($isInsideLink->isSatisfiedBy($image));
     }
 }

@@ -130,6 +130,11 @@ class Image
         return $this->domElement->hasAttribute($name);
     }
 
+    public function getDOMElement(): \DOMElement
+    {
+        return $this->domElement;
+    }
+
     public function getParentNode(): \DOMNode
     {
         return $this->domElement->parentNode;
