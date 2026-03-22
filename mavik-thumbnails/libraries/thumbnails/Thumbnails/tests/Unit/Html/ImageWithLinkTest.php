@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class ImageWithLinkTest extends TestCase
 {
+    /** @var ImageFactory&\PHPUnit\Framework\MockObject\MockObject */
     private ImageFactory $imageFactory;
 
     protected function setUp(): void
@@ -38,7 +39,7 @@ class ImageWithLinkTest extends TestCase
         $imageWithLink = new ImageWithLink($img, $this->imageFactory);
 
         $this->assertEquals(1, $parent->childNodes->length);
-        
+
         /** @var \DOMElement $link */
         $link = $parent->firstChild;
         $this->assertInstanceOf(\DOMElement::class, $link);
@@ -67,7 +68,7 @@ class ImageWithLinkTest extends TestCase
         $this->assertEquals('a', $link->nodeName);
         $this->assertEquals('test.jpg', $link->getAttribute('href'));
         $this->assertEquals('mavik-thumbnails-link', $link->getAttribute('class'));
-        
+
         $this->assertSame($img, $link->firstChild);
     }
 
@@ -79,10 +80,10 @@ class ImageWithLinkTest extends TestCase
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
         $img->setAttribute('src', 'test.jpg');
-        
+
         $image = new Image($img, $this->imageFactory);
         $imageWithLink = ImageWithLink::createFromImage($image);
-        
+
         $link = $img->parentNode;
         $this->assertInstanceOf(\DOMElement::class, $link);
         $this->assertEquals('a', $link->nodeName);
@@ -124,8 +125,9 @@ class ImageWithLinkTest extends TestCase
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
         $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        /** @var \DOMElement $link */
         $link = $img->parentNode;
-        
+
         // Add first class
         $imageWithLink->addLinkClass('custom-class-1');
         $this->assertEquals('mavik-thumbnails-link custom-class-1', $link->getAttribute('class'));
@@ -133,7 +135,7 @@ class ImageWithLinkTest extends TestCase
         // Add second class
         $imageWithLink->addLinkClass('custom-class-2');
         $this->assertEquals('mavik-thumbnails-link custom-class-1 custom-class-2', $link->getAttribute('class'));
-        
+
         // Add a class that already exists
         $imageWithLink->addLinkClass('custom-class-1');
         $this->assertEquals('mavik-thumbnails-link custom-class-1 custom-class-2', $link->getAttribute('class'));
@@ -147,11 +149,12 @@ class ImageWithLinkTest extends TestCase
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
         $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        /** @var \DOMElement $link */
         $link = $img->parentNode;
-        
+
         $imageWithLink->setLinkAttribute('rel', 'lightbox');
         $this->assertEquals('lightbox', $link->getAttribute('rel'));
-        
+
         $imageWithLink->setLinkAttribute('data-title', 'Image Title');
         $this->assertEquals('Image Title', $link->getAttribute('data-title'));
     }
