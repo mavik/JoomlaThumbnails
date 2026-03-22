@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Mavik\Thumbnails\Specification\Image;
 
-use Mavik\Thumbnails\Html;
+use Mavik\Thumbnails\Html\Image;
 
 class IsZoomedOut extends AbstractImageSpecification
 {
-    protected function isSatisfiedByImage(Html\Image $image): bool
+    protected function isSatisfiedByImage(Image $image): bool
     {
         return
             $image->isSizeInPixels()
