@@ -17,13 +17,12 @@ use DOMNode;
 
 class ImageWithLink extends Image
 {
-    /** @var \DOMElement */
-    private $linkDomElement;
+    private \DOMElement $linkDomElement;
 
     public function __construct(\DOMElement $domElement, ImageFactory $imageFactory)
     {
         parent::__construct($domElement, $imageFactory);
-        $this->linkDomElement = $domElement->ownerDocument->createElement('a');;
+        $this->linkDomElement = $domElement->ownerDocument->createElement('a');
         $this->linkDomElement->setAttribute('href', $this->getSrc());
         $this->linkDomElement->setAttribute('class', 'mavik-thumbnails-link');
         $parentNode = $this->domElement->parentNode;
@@ -38,7 +37,7 @@ class ImageWithLink extends Image
         return new self($image->domElement, $image->imageFactory);
     }
 
-    public function getParentNode(): DOMNode
+    public function getParentNode(): ?DOMNode
     {
         return $this->linkDomElement->parentNode;
     }
@@ -46,10 +45,11 @@ class ImageWithLink extends Image
     public function addLinkClass(string $class): void
     {
         $currentClass = $this->linkDomElement->getAttribute('class');
-        if ($currentClass) {
-            $this->linkDomElement->setAttribute('class', $currentClass . ' ' . $class);
-        } else {
-            $this->linkDomElement->setAttribute('class', $class);
+        $classes = $currentClass ? explode(' ', $currentClass) : [];
+
+        if (!in_array($class, $classes, true)) {
+            $classes[] = $class;
+            $this->linkDomElement->setAttribute('class', implode(' ', $classes));
         }
     }
 
