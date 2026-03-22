@@ -21,11 +21,20 @@ use Mavik\Thumbnails\Specification\Image\AddPopUp as AddPopUpSpecification;
 
 class AddPopUp implements ActionInterface
 {
-    private ActionInterface $library;
+    /** @var AbstractSpecification */
+    private $specification;
 
-    public function __construct(string $library)
+    /** @var ActionInterface */
+    private $library;
+
+    public function __construct(Configuration $configuration)
     {
-        $this->library = new PopUp\GLightbox();
+        $this->specification = new AddPopUpSpecification($configuration);
+        $popUp = $configuration->base()->popUp();
+        if ($popUp) {
+            $libraryName = 'PopUp\\' . $configuration->base()->popUp();
+            $this->library = new $libraryName($configuration);
+        }
     }
 
     /**
@@ -33,11 +42,11 @@ class AddPopUp implements ActionInterface
      */
     public function execute(ImageTag $imageTag, JsAndCss $jsAndCss): void
     {
-        $this->library->execute($imageTag, $jsAndCss);
+        $this->library?->execute($imageTag, $jsAndCss);
     }
 
-    public function specification(Configuration $configuration): AbstractSpecification
+    public function specification(): AbstractSpecification
     {
-        return new AddPopUpSpecification($configuration);
+        return $this->specification;
     }
 }

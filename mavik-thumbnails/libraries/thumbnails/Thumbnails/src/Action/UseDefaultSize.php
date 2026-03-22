@@ -25,9 +25,13 @@ class UseDefaultSize implements ActionInterface
      */
     private $configuration;
 
+    /** @var AbstractSpecification */
+    private $specification;
+
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+        $this->specification = new UseDefaultSizeSpecification($configuration);
     }
 
     /**
@@ -41,8 +45,8 @@ class UseDefaultSize implements ActionInterface
         );
     }
 
-    public function specification(Configuration $configuration): AbstractSpecification
+    public function specification(): AbstractSpecification
     {
-        return new UseDefaultSizeSpecification($configuration);
+        return $this->specification;
     }
 }

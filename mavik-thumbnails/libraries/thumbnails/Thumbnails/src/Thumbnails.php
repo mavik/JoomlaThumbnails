@@ -17,6 +17,7 @@ use Mavik\Thumbnails\Html\Document;
 use Mavik\Thumbnails\Html\Image;
 use Mavik\Thumbnails\JsAndCss;
 use Mavik\Thumbnails\Action;
+use Mavik\Thumbnails\Action\ActionInterface;
 
 class Thumbnails
 {
@@ -26,11 +27,18 @@ class Thumbnails
         Action\AddPopUp::class,
     ];
 
+    /** @var Configuration */
+    private $configuration;
+
     /** @var ImageFactory */
     private $imageFactory;
 
+    /** @var ActionInterface[] */
+    private $actions;
+
     public function __construct(Configuration $configuration)
     {
+        $this->configuration = $configuration;
         $serverConfiguration = $configuration->server();
         $imageFactoryConfiguration = new ImageFactoryConfiguration(
             $serverConfiguration->baseUrl(),
@@ -39,6 +47,10 @@ class Thumbnails
             $serverConfiguration->graphicLibraryPriority()
         );
         $this->imageFactory = new ImageFactory($imageFactoryConfiguration);
+        $this->actions = [];
+        foreach (self::ACTIONS as $actionClass) {
+            $this->actions[] = new $actionClass($this->configuration);
+        }
     }
 
     /**
@@ -58,9 +70,8 @@ class Thumbnails
 
     private function doActions(Image $image, JsAndCss $jsAndCss): void
     {
-        foreach (self::ACTIONS as $actionClass) {
-            $action = new $actionClass();
-            if ($action->specification()->isSatisfiedBy($image)) {
+        foreach ($this->actions as $action) {
+            if ($action->specification($this->configuration)->isSatisfiedBy($image)) {
                 $action->execute($image, $jsAndCss);
             }
         }

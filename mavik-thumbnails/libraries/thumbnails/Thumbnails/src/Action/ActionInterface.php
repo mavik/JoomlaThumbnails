@@ -19,10 +19,12 @@ use Mavik\Thumbnails\Specification\AbstractSpecification;
 
 interface ActionInterface
 {
+    public function __construct(Configuration $configuration);
+
     /**
      * Change $image and add JS and CSS to $jsAndCss.
      */
     public function execute(Image $image, JsAndCss $jsAndCss): void;
 
-    public function specification(Configuration $configuration): AbstractSpecification;
+    public function specification(): AbstractSpecification;
 }

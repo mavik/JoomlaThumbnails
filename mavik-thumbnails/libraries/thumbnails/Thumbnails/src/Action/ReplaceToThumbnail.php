@@ -23,9 +23,13 @@ class ReplaceToThumbnail implements ActionInterface
     /** @var Configuration */
     private $configuration;
 
+    /** @var AbstractSpecification */
+    private $specification;
+
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+        $this->specification = new ReplaceWithThumbnailSpecification($configuration);
     }
 
     public function execute(Image $image, JsAndCss $jsAndCss): void
@@ -36,8 +40,8 @@ class ReplaceToThumbnail implements ActionInterface
         );
     }
 
-    public function specification(Configuration $configuration): AbstractSpecification
+    public function specification(): AbstractSpecification
     {
-        return new ReplaceWithThumbnailSpecification($configuration);
+        return $this->specification;
     }
 }
