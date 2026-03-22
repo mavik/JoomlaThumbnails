@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Mavik\Thumbnails\Action\PopUp;
 
-use Mavik\Thumbnails\Action\ActionInterface;
 use Mavik\Thumbnails\Html\Image;
 use Mavik\Thumbnails\Html\ImageWithLink;
 use Mavik\Thumbnails\JsAndCss;
 
-class GLightbox implements ActionInterface
+class GLightbox
 {
     /**
      * Change $imageTag and add JS and CSS to $jsAndCss.
      */
-    public function __invoke(Image $image, JsAndCss $jsAndCss): void
+    public function execute(Image $image, JsAndCss $jsAndCss): void
     {
         $imageWithLink = ImageWithLink::createFromImage($image);
         $imageWithLink->addLinkClass('glightbox');
