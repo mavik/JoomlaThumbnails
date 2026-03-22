@@ -23,9 +23,9 @@ use PHPUnit\Framework\TestCase;
 class ReplaceToThumbnailTest extends TestCase
 {
     /**
-     * @covers \Mavik\Thumbnails\Action\ReplaceToThumbnail::__invoke
+     * @covers \Mavik\Thumbnails\Action\ReplaceToThumbnail::execute
      */
-    public function testReplaceToThumbnail()
+    public function testExecute()
     {
         $src = 'test.jpg';
         $width = 200;
@@ -44,7 +44,7 @@ class ReplaceToThumbnailTest extends TestCase
 
         $replaceToThumbnail = new ReplaceToThumbnail($configuration);
 
-        $replaceToThumbnail($image, $jsAndCss);
+        $replaceToThumbnail->execute($image, $jsAndCss);
 
         $this->assertEquals($this->thumbName($src, 1), $imageTag->getAttribute('src'));
         $this->assertEquals($scrset, $imageTag->getAttribute('srcset'));
