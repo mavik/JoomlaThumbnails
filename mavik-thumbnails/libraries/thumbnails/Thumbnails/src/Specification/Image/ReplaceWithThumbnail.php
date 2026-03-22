@@ -14,7 +14,7 @@ namespace Mavik\Thumbnails\Specification\Image;
 
 use Mavik\Thumbnails\Specification\CompositeSpecification;
 use Mavik\Thumbnails\Configuration;
-use Mavik\Thumbnails\Specification\DOMElement\IsInsideLink;
+use Mavik\Thumbnails\Specification\Image\IsInsideLink;
 
 class ReplaceWithThumbnail extends CompositeSpecification
 {
