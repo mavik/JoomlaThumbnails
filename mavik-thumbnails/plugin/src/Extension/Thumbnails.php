@@ -36,6 +36,10 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
 
     public function onContentPrepare(ContentPrepareEvent $event)
     {
+        if ($this->getApplication()->isClient('administrator')) {
+            return;
+        }
+
         $context = $this->contextFactory->createContext($event->getContext());
         if (empty($context)) {
             $context = new Context\Simple();
