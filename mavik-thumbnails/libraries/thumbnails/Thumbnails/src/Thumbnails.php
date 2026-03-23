@@ -23,8 +23,8 @@ class Thumbnails
 {
     private const ACTIONS = [
         Action\UseDefaultSize::class,
-        Action\ReplaceToThumbnail::class,
         Action\AddPopUp::class,
+        Action\ReplaceToThumbnail::class,
     ];
 
     /** @var Configuration */
@@ -71,7 +71,7 @@ class Thumbnails
     private function doActions(Image $image, JsAndCss $jsAndCss): void
     {
         foreach ($this->actions as $action) {
-            if ($action->specification($this->configuration)->isSatisfiedBy($image)) {
+            if ($action->specification()->isSatisfiedBy($image)) {
                 $action->execute($image, $jsAndCss);
             }
         }
