@@ -32,7 +32,7 @@ class AddPopUp implements ActionInterface
         $this->specification = new AddPopUpSpecification($configuration);
         $popUp = $configuration->base()->popUp();
         if ($popUp) {
-            $libraryName = 'PopUp\\' . $configuration->base()->popUp();
+            $libraryName = __NAMESPACE__ . '\\PopUp\\' . $configuration->base()->popUp();
             $this->library = new $libraryName($configuration);
         }
     }
