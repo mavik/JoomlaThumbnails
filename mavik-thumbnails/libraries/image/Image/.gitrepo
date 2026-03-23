@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:mavik/Image.git
 	branch = master
-	commit = 1859d6d03445c66d92caf8090018bdfc8d57bf5c
-	parent = 1af8768e13772ac5cbd36999590c608fb1c808a4
+	commit = bed7af3812a7f4079f3a2e203f78be2dfa2ee762
+	parent = 43037b0a6198e9389205000b727df307e9fb4917
 	method = merge
 	cmdver = 0.4.9
