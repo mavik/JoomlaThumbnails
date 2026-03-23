@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:mavik/Thumbnails.git
 	branch = main
-	commit = 6da7bc6ab958e3807f9da187c788017c4e5c652e
-	parent = f4f0bdfd2bdd70fabfe3eeb12aeaef97c62e10ce
+	commit = c1831ac74c52f7d9890a57622f8ed23d05e3b750
+	parent = c840f5a01e732205c46a6acd6d7909d424bb9538
 	method = merge
 	cmdver = 0.4.9
