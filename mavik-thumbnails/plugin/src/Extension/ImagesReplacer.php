@@ -22,10 +22,10 @@ class ImagesReplacer
         $this->thumbnails = new Thumbnails($config);
     }
 
-    public function process(array $text)
+    public function execute(array $text)
     {
         $jsAndCss = new JsAndCss();
-        foreach($text as &$textItem) {
+        foreach ($text as &$textItem) {
             $result = ($this->thumbnails)($textItem);
             $textItem = $result->html;
             $jsAndCss->merge($result->jsAndCss);
