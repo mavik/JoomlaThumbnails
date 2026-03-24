@@ -168,7 +168,7 @@ class ImageFileTest extends TestCase
                 ]
             ],
             10 => [
-                'https://pixnio.com/free-images/2020/01/24/2020-01-24-08-50-32-1200x800.jpg',
+                'http://localhost:8888/2020-01-24-08-50-32-1200x800.jpg',
                 null,
                 [
                     'width' => 1200,

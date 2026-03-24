@@ -275,7 +275,7 @@ class ImageImmutableTest extends TestCase
                     'file_size' => 69622,
                 ]
             ],[ 10 =>
-                'https://upload.wikimedia.org/wikipedia/en/a/a7/Culinary_fruits_cropped_top_view.jpg',
+                'http://localhost:8888/culinary_fruits.jpg',
                 [
                     'width'     => 3224,
                     'height'    => 2145,
@@ -283,7 +283,7 @@ class ImageImmutableTest extends TestCase
                     'file_size' => 2925171,
                 ]
             ],[ 11 =>
-                'https://pixnio.com/free-images/2020/01/24/2020-01-24-08-50-32-1200x800.jpg',
+                'http://localhost:8888/2020-01-24-08-50-32-1200x800.jpg',
                 [
                     'width'     => 1200,
                     'height'    => 800,
