@@ -153,10 +153,20 @@ class Image
         if (empty($thumbnails)) {
             return false;
         }
-        $defaultThumbnail = $thumbnails[1] ?? current($thumbnails);
+        if (isset($thumbnails[1])) {
+            $defaultScale = 1;
+            $defaultThumbnail = $thumbnails[1];
+        } else {
+            reset($thumbnails);
+            $defaultScale = key($thumbnails);
+            $defaultThumbnail = current($thumbnails);
+        }
         $this->setSrc($defaultThumbnail->getUrl());
         $this->setSrcset($this->createSrcset($thumbnails));
-        $this->setSize($defaultThumbnail->getWidth(), $defaultThumbnail->getHeight());
+        $this->setSize(
+            (int) round($defaultThumbnail->getWidth() / $defaultScale),
+            (int) round($defaultThumbnail->getHeight() / $defaultScale)
+        );
         return true;
     }
 

@@ -12,6 +12,7 @@ namespace Mavik\Thumbnails\Html;
 
 use Mavik\Image\ImageFactory;
 use Mavik\Image\ImageImmutable;
+use Mavik\Image\ImageWithThumbnails;
 use PHPUnit\Framework\TestCase;
 
 class ImageTest extends TestCase
@@ -202,5 +203,47 @@ class ImageTest extends TestCase
             }
             yield [$img, $item];
         }
+    }
+
+    /**
+     * @covers ::useThumbnail
+     */
+    public function testUseThumbnailWithMissing1xScale(): void
+    {
+        $dom = new \DOMDocument();
+        $img = $dom->createElement('img');
+        $img->setAttribute('src', 'test.jpg');
+        $img->setAttribute('width', '100');
+        $img->setAttribute('height', '50');
+
+        $thumbnail2x = $this->createConfiguredMock(ImageImmutable::class, [
+            'getUrl' => 'test-2x.jpg',
+            'getWidth' => 400,
+            'getHeight' => 200,
+        ]);
+        $thumbnail3x = $this->createConfiguredMock(ImageImmutable::class, [
+            'getUrl' => 'test-3x.jpg',
+            'getWidth' => 600,
+            'getHeight' => 300,
+        ]);
+
+        $imageWithThumbnails = $this->createConfiguredMock(ImageWithThumbnails::class, [
+            'thumbnails' => [2 => $thumbnail2x, 3 => $thumbnail3x]
+        ]);
+
+        $imageFactory = $this->createMock(ImageFactory::class);
+        $imageFactory->method('createImmutable')->willReturn($this->createStub(ImageImmutable::class));
+        $imageFactory->expects($this->once())
+            ->method('convertImageToImageWithThumbnails')
+            ->willReturn($imageWithThumbnails);
+
+        $image = new Image($img, $imageFactory);
+        $result = $image->useThumbnail('scale_by_width', [2, 3]);
+
+        $this->assertTrue($result);
+        $this->assertEquals(200, $image->getWidth());
+        $this->assertEquals(100, $image->getHeight());
+        $this->assertEquals('test-2x.jpg', $img->getAttribute('src'));
+        $this->assertEquals('test-2x.jpg 2x, test-3x.jpg 3x', $img->getAttribute('srcset'));
     }
 }
