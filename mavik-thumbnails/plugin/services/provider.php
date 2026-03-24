@@ -8,23 +8,20 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Mavik\Plugin\Content\Thumbnails\Extension\Thumbnails;
 
-    return new class() implements ServiceProviderInterface
+return new class () implements ServiceProviderInterface {
+    public function register(Container $container)
     {
-        public function register(Container $container)
-        {
-            $container->set(
-                PluginInterface::class,
-                function (Container $container) {
-    
-                    $config = (array) PluginHelper::getPlugin('content', 'mavik-thumbnails');
-                    $subject = $container->get(DispatcherInterface::class);
-                    $app = Factory::getApplication();
-                    
-                    $plugin = new Thumbnails($subject, $config);
-                    $plugin->setApplication($app);
-    
-                    return $plugin;
-                }
-            );
-        }
-    };
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+
+                $config = (array) PluginHelper::getPlugin('content', 'mavik-thumbnails');
+                $app = Factory::getApplication();
+                $plugin = new Thumbnails($config);
+                $plugin->setApplication($app);
+
+                return $plugin;
+            }
+        );
+    }
+};

@@ -20,9 +20,9 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
     private ContextFactory $contextFactory;
     private ImagesReplacer $imagesReplacer;
 
-    public function __construct(DispatcherInterface $dispatcher, array $config = [])
+    public function __construct(array $config = [])
     {
-        parent::__construct($dispatcher, $config);
+        parent::__construct($config);
         $this->contextFactory = new ContextFactory();
         $this->imagesReplacer = new ImagesReplacer($this->params);
     }
