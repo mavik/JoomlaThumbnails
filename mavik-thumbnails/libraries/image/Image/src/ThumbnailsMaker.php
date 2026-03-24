@@ -52,7 +52,7 @@ class ThumbnailsMaker
         foreach ($scales as $scale) {
             $thumbnail = $this->thumbnailForScale($image, $thumbnailSize, $resizeStrategy, $scale, $imageMTime);
             if ($thumbnail) {
-                $thumbnails[$scale] = $thumbnail;
+                $thumbnails[(string) $scale] = $thumbnail;
             }
         }
         return $thumbnails;
