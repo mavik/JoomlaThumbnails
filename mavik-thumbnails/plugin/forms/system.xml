@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="params">
+        <fields name="mavik-thumbnails">
+            <fieldset name="server" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELDSET_SERVER">
+                <field name="popUp" type="list" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_POPUP" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_POPUP_DESC" default="none">
+                    <option value="">PLG_CONTENT_MAVIK_THUMBNAILS_OPTION_POPUP_NONE</option>
+                    <option value="GLightbox">GLightbox</option>
+                </field>
+                <field name="adaptiveScales" type="checkboxes" checkedOptions="1,1.5,2" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_ADAPTIVE_SCALES_DESC" default="1,1.5,2">
+                    <option value="1">1x</option>
+                    <option value="1.5">1.5x</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                </field>
+                <field name="thumbnailsDir" type="text" label="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR" description="PLG_CONTENT_MAVIK_THUMBNAILS_FIELD_THUMBNAILS_DIR_DESC" default="images/thumbnails" hint="images/thumbnails" />
+            </fieldset>
+        </fields>
+    </fields>
+</form>

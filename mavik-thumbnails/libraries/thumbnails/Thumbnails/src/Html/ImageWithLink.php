@@ -19,11 +19,11 @@ class ImageWithLink extends Image
 {
     private \DOMElement $linkDomElement;
 
-    public function __construct(\DOMElement $domElement, ImageFactory $imageFactory)
+    public function __construct(\DOMElement $domElement, ImageFactory $imageFactory, string $href)
     {
         parent::__construct($domElement, $imageFactory);
         $this->linkDomElement = $domElement->ownerDocument->createElement('a');
-        $this->linkDomElement->setAttribute('href', $this->getSrc());
+        $this->linkDomElement->setAttribute('href', $href);
         $this->linkDomElement->setAttribute('class', 'mavik-thumbnails-link');
         $parentNode = $this->domElement->parentNode;
         if ($parentNode) {
@@ -32,9 +32,9 @@ class ImageWithLink extends Image
         $this->linkDomElement->appendChild($this->domElement);
     }
 
-    public static function createFromImage(Image $image): self
+    public static function createFromImage(Image $image, string $href): self
     {
-        return new self($image->domElement, $image->imageFactory);
+        return new self($image->domElement, $image->imageFactory, $href);
     }
 
     public function getParentNode(): ?DOMNode

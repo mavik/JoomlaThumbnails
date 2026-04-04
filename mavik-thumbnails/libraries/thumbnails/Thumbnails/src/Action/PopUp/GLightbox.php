@@ -23,7 +23,7 @@ class GLightbox
      */
     public function execute(Image $image, JsAndCss $jsAndCss): void
     {
-        $imageWithLink = ImageWithLink::createFromImage($image);
+        $imageWithLink = ImageWithLink::createFromImage($image, $image->getSrc());
         $imageWithLink->addLinkClass('glightbox');
         $imageWithLink->setLinkAttribute('data-gallery', 'gallery');
         $jsAndCss->addJs('glightbox/js/glightbox.js');

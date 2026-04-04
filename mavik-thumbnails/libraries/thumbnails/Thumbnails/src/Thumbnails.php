@@ -56,21 +56,25 @@ class Thumbnails
     /**
      * Replace images in html to thumbnails.
      * 
+     * @param ActionInterface[]|null $actions
      * @throws Exception
      */
-    public function __invoke(string $html): Result
+    public function __invoke(string $html, ?array $actions = null): Result
     {
         $document = Document::createFragment($html, $this->imageFactory);
         $jsAndCss = new JsAndCss();
         foreach ($document->findImages() as $imageTag) {
-            $this->doActions($imageTag, $jsAndCss);
+            $this->doActions($imageTag, $jsAndCss, $actions);
         }
         return new Result((string) $document, $jsAndCss);
     }
 
-    private function doActions(Image $image, JsAndCss $jsAndCss): void
+    /**
+     * @param ActionInterface[]|null $actions
+     */
+    private function doActions(Image $image, JsAndCss $jsAndCss, ?array $actions = null): void
     {
-        foreach ($this->actions as $action) {
+        foreach ($actions ?? $this->actions as $action) {
             if ($action->specification()->isSatisfiedBy($image)) {
                 $action->execute($image, $jsAndCss);
             }

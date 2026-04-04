@@ -36,7 +36,7 @@ class ImageWithLinkTest extends TestCase
         $img->setAttribute('src', 'test.jpg');
         $parent->appendChild($img);
 
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
 
         $this->assertEquals(1, $parent->childNodes->length);
 
@@ -60,7 +60,7 @@ class ImageWithLinkTest extends TestCase
         $img = $dom->createElement('img');
         $img->setAttribute('src', 'test.jpg');
 
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
 
         // The image is now a child of the created 'a' element
         $link = $img->parentNode;
@@ -82,7 +82,7 @@ class ImageWithLinkTest extends TestCase
         $img->setAttribute('src', 'test.jpg');
 
         $image = new Image($img, $this->imageFactory);
-        $imageWithLink = ImageWithLink::createFromImage($image);
+        $imageWithLink = ImageWithLink::createFromImage($image, $image->getSrc());
 
         $link = $img->parentNode;
         $this->assertInstanceOf(\DOMElement::class, $link);
@@ -101,7 +101,7 @@ class ImageWithLinkTest extends TestCase
         $img = $dom->createElement('img');
         $parent->appendChild($img);
 
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
         $this->assertSame($parent, $imageWithLink->getParentNode());
     }
 
@@ -113,7 +113,7 @@ class ImageWithLinkTest extends TestCase
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
 
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
         $this->assertNull($imageWithLink->getParentNode());
     }
 
@@ -124,7 +124,7 @@ class ImageWithLinkTest extends TestCase
     {
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
         /** @var \DOMElement $link */
         $link = $img->parentNode;
 
@@ -148,7 +148,7 @@ class ImageWithLinkTest extends TestCase
     {
         $dom = new \DOMDocument();
         $img = $dom->createElement('img');
-        $imageWithLink = new ImageWithLink($img, $this->imageFactory);
+        $imageWithLink = new ImageWithLink($img, $this->imageFactory, $img->getAttribute('src'));
         /** @var \DOMElement $link */
         $link = $img->parentNode;
 
