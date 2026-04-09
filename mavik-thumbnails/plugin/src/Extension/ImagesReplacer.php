@@ -20,11 +20,11 @@ class ImagesReplacer
         $this->thumbnails = new Thumbnails($configuration);
     }
 
-    public function execute(array $text)
+    public function execute(array $text, ?array $actions)
     {
         $jsAndCss = new JsAndCss();
         foreach ($text as &$textItem) {
-            $result = ($this->thumbnails)($textItem);
+            $result = ($this->thumbnails)($textItem, $actions);
             $textItem = $result->html;
             $jsAndCss->merge($result->jsAndCss);
         }

@@ -9,7 +9,6 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Event\Model\PrepareFormEvent;
-use Mavik\Plugin\Content\Thumbnails\Extension\Context\BaseContext;
 
 /**
  * mavikThumbnails Plugin
@@ -44,10 +43,10 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
         if ($this->getApplication()->isClient('administrator')) {
             return;
         }
-        $context = $this->contextFactory->createContext($event->getContext());
+        $context = $this->contextFactory->createContext($event->getContext(), $event->getItem());
         $item = $event->getItem();
-        $text = $context->getText($item);
-        $context->setText($item, $this->imagesReplacer->execute($text));
+        $text = $context->getText();
+        $context->setText($this->imagesReplacer->execute($text, $context->getActions()));
     }
 
     public function onContentPrepareForm(PrepareFormEvent $formEvent): bool

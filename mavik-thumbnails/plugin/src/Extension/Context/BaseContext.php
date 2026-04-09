@@ -7,24 +7,26 @@ use Joomla\CMS\Form\Form;
 
 class BaseContext implements ContextInterface
 {
-    public function __construct(protected Configuration $configuration)
-    {
+    public function __construct(
+        protected \stdClass $item,
+        protected Configuration $configuration
+    ) {
     }
 
     /*
      * @return string[]
      */
-    public function getText($item): array
+    public function getText(): array
     {
-        return [$item->text];
+        return [$this->item->text];
     }
 
     /**
      * @param string[] $text
      */
-    public function setText($item, array $text): void
+    public function setText(array $text): void
     {
-        $item->text = $text[0];
+        $this->item->text = $text[0];
     }
 
     public function getActions(): ?array

@@ -9,17 +9,17 @@ use Joomla\CMS\Form\Form;
 interface ContextInterface
 {
 
-    public function __construct(Configuration $configuration);
+    public function __construct(\stdClass $item, Configuration $configuration);
 
     /**
      * @return string[]
      */
-    public function getText($item): array;
+    public function getText(): array;
 
     /**
      * @param string[] $text
      */
-    public function setText($item, array $text): void;
+    public function setText(array $text): void;
 
     /**
      * @return ActionInterface[]|null
