@@ -2,10 +2,15 @@
 
 namespace Mavik\Plugin\Content\Thumbnails\Extension\Context;
 
+use Mavik\Thumbnails\Configuration;
 use Joomla\CMS\Form\Form;
 
 class BaseContext implements ContextInterface
 {
+    public function __construct(protected Configuration $configuration)
+    {
+    }
+
     /*
      * @return string[]
      */

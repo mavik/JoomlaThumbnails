@@ -1,6 +1,6 @@
 <?php
 
-namespace Mavik\Plugin\Content\Thumbnails\Extension\Context\Blog\Action;
+namespace Mavik\Plugin\Content\Thumbnails\Extension\Context\Component\ComContent\Action;
 
 use Mavik\Thumbnails\Action\ActionInterface;
 use Mavik\Thumbnails\Specification\AbstractSpecification;

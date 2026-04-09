@@ -6,7 +6,7 @@ defined('_JEXEC') or die;
 
 use Mavik\Thumbnails\Thumbnails;
 use Mavik\Thumbnails\JsAndCss;
-use Joomla\Registry\Registry;
+use Mavik\Thumbnails\Configuration;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
 
@@ -15,11 +15,9 @@ class ImagesReplacer
     /** @var Thumbnails */
     private $thumbnails;
 
-    public function __construct(Registry $params)
+    public function __construct(Configuration $configuration)
     {
-        $configFactory = new ConfigurationFactory();
-        $config = $configFactory->create($params);
-        $this->thumbnails = new Thumbnails($config);
+        $this->thumbnails = new Thumbnails($configuration);
     }
 
     public function execute(array $text)

@@ -25,8 +25,10 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
     public function __construct(array $config = [])
     {
         parent::__construct($config);
-        $this->contextFactory = new ContextFactory();
-        $this->imagesReplacer = new ImagesReplacer($this->params);
+        $configFactory = new ConfigurationFactory();
+        $configuration = $configFactory->create($this->params);
+        $this->contextFactory = new ContextFactory($configuration);
+        $this->imagesReplacer = new ImagesReplacer($configuration);
     }
 
     public static function getSubscribedEvents(): array
@@ -42,7 +44,10 @@ class Thumbnails extends CMSPlugin implements SubscriberInterface
         if ($this->getApplication()->isClient('administrator')) {
             return;
         }
-        $context = new BaseContext();
+        $context = $this->contextFactory->createContext($event->getContext());
+        if (empty($context)) {
+            return;
+        }
         $item = $event->getItem();
         $text = $context->getText($item);
         $context->setText($item, $this->imagesReplacer->execute($text));
