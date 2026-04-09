@@ -19,8 +19,6 @@ use Mavik\Thumbnails\Specification\AbstractSpecification;
 
 interface ActionInterface
 {
-    public function __construct(Configuration $configuration);
-
     /**
      * Change $image and add JS and CSS to $jsAndCss.
      */

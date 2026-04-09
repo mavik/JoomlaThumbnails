@@ -13,27 +13,12 @@ declare(strict_types=1);
 namespace Mavik\Thumbnails\Action;
 
 use Mavik\Thumbnails\Html\Image;
-use Mavik\Thumbnails\Configuration;
 use Mavik\Thumbnails\JsAndCss;
 use Mavik\Thumbnails\Specification\AbstractSpecification;
 use Mavik\Thumbnails\Specification\Image\UseDefaultSize as UseDefaultSizeSpecification;
 
-class UseDefaultSize implements ActionInterface
+class UseDefaultSize extends AbstractAction
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /** @var AbstractSpecification */
-    private $specification;
-
-    public function __construct(Configuration $configuration)
-    {
-        $this->configuration = $configuration;
-        $this->specification = new UseDefaultSizeSpecification($configuration);
-    }
-
     /**
      * Change $image and add JS and CSS to $jsAndCss.
      */
@@ -45,8 +30,8 @@ class UseDefaultSize implements ActionInterface
         );
     }
 
-    public function specification(): AbstractSpecification
+    protected function createSpecification(): AbstractSpecification
     {
-        return $this->specification;
+        return new UseDefaultSizeSpecification($this->configuration);
     }
 }
