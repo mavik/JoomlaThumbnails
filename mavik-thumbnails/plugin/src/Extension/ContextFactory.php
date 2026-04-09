@@ -2,6 +2,8 @@
 
 namespace Mavik\Plugin\Content\Thumbnails\Extension;
 
+use Mavik\Plugin\Content\Thumbnails\Extension\Context\BaseContext;
+
 defined('_JEXEC') or die;
 
 use Mavik\Thumbnails\Configuration;
@@ -13,14 +15,14 @@ class ContextFactory
     {
     }
 
-    public function createContext($contextName): ?ContextInterface
+    public function createContext($contextName): ContextInterface
     {
-        $normalizedtName = str_replace('_', '', ucwords($contextName, '._'));
-        $filePath = __DIR__ . '/Context/' . str_replace('.', '/', $normalizedtName) . '.php';
-        if (file_exists($filePath)) {
-            $className = 'Mavik\\Plugin\\Content\\Thumbnails\\Extension\\Context\\' . str_replace('.', '\\', $normalizedtName);
+        $normalizedtName = str_replace(['_', '.'], ['', '\\'], ucwords($contextName, '._'));
+        $className = 'Mavik\\Plugin\\Content\\Thumbnails\\Extension\\Context\\' . $normalizedtName;
+        if (class_exists($className)) {
             return new $className($this->configuration);
+        } else {
+            return new BaseContext($this->configuration);
         }
-        return null;
     }
 }
